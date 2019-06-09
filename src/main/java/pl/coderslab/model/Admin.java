@@ -1,6 +1,5 @@
 package pl.coderslab.model;
 
-import org.mindrot.jbcrypt.BCrypt;
 
 public class Admin {
     private int id;
@@ -9,7 +8,7 @@ public class Admin {
     private String email;
     private String password;
     private int superadmin;
-    private int emable;
+    private int enable;
 
     @Override
     public String toString() {
@@ -20,20 +19,20 @@ public class Admin {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", superadmin=" + superadmin +
-                ", emable=" + emable +
+                ", enable=" + enable +
                 '}';
     }
 
     public Admin() {
     }
 
-    public Admin(String firstName, String lastName, String email, String password, int superadmin, int emable) {
+    public Admin(String firstName, String lastName, String email, String password, int superadmin, int enable) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt()); //do bazy zostanie zapisane zaszyfrowane hasło
+        this.password = password;
         this.superadmin = superadmin;
-        this.emable = emable;
+        this.enable = enable;
     }
 
     public int getId() {
@@ -68,17 +67,12 @@ public class Admin {
         this.email = email;
     }
 
-    //zakładamy że candidate jest niezaszyfrowany
-    public boolean verifyPassword(String candidate) {
-        return(BCrypt.checkpw(candidate, password));
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt()); //do bazy zostanie zapisane zaszyfrowane hasło
+        this.password = password;
     }
 
     public int getSuperadmin() {
@@ -89,11 +83,11 @@ public class Admin {
         this.superadmin = superadmin;
     }
 
-    public int getEmable() {
-        return emable;
+    public int getEnable() {
+        return enable;
     }
 
-    public void setEmable(int emable) {
-        this.emable = emable;
+    public void setEnable(int enable) {
+        this.enable = enable;
     }
 }
