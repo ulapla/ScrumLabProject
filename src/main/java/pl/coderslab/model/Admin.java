@@ -31,7 +31,7 @@ public class Admin {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt()); //do bazy zostanie zapisane zaszyfrowane hasło
         this.superadmin = superadmin;
         this.emable = emable;
     }
@@ -68,12 +68,17 @@ public class Admin {
         this.email = email;
     }
 
+    //zakładamy że candidate jest niezaszyfrowany
     public boolean verifyPassword(String candidate) {
         return(BCrypt.checkpw(candidate, password));
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
-        this.password = password;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt()); //do bazy zostanie zapisane zaszyfrowane hasło
     }
 
     public int getSuperadmin() {
