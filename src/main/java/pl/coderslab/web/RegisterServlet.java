@@ -24,6 +24,10 @@ public class RegisterServlet extends HttpServlet {
         String nameParam = req.getParameter("name");
         String surnameParam = req.getParameter("surname");
         String emailParam = req.getParameter("email");
+//        if (!(emailParam.matches("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$"))) { //trzeba dopracować
+//            req.setAttribute("msg1", "1");
+//            getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
+//        }
 
         String[] checkEqualsPassword = req.getParameterValues("password");
         if (checkEqualsPassword[0].equals(checkEqualsPassword[1])) { //sprawdzamy czy hasła są takie same
@@ -39,7 +43,7 @@ public class RegisterServlet extends HttpServlet {
 
         } else {
             req.setAttribute("msg", "1");//dowolna wartość obiektu, aby nie był null, na registration jsp jest if do tego
-            getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
+
         }
     }
 }

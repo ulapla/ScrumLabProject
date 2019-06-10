@@ -20,6 +20,9 @@
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control" id="email" name="email" placeholder="podaj email">
+                            <c:if test="${msg1 != null}">
+                            <div class="form-group">Niepoprawny format adresu email</div>
+                        </c:if>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control" id="password" name="password" placeholder="podaj hasło">
