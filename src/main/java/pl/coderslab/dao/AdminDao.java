@@ -22,6 +22,7 @@ public class AdminDao {
     private static final String UPDATE_ADMIN_QUERY = "UPDATE admins SET first_name = ? , last_name = ?, email = ?, password = ?, superadmin = ?, enable = ? WHERE	id = ?;";
     private static final String FIND_ADMIN_BY_EMAIL = "SELECT * FROM admins WHERE email = ?;";
 
+
     /**
      * Get admin by id
      *
@@ -76,6 +77,23 @@ public class AdminDao {
 
     }
 
+    private boolean isEmailExist(String email){
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ADMIN_BY_EMAIL)) {
+
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet.next();// zwraca false gdy nie znajdzie emaila w bazie danych i true jak znajdzie
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
     /**
      * Return all admins
      *
@@ -112,37 +130,41 @@ public class AdminDao {
      * @param admin
      * @return
      */
-    public Admin create(Admin admin) {
+    public Admin create(Admin admin) throws Exception {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement insertStm = connection.prepareStatement(CREATE_ADMIN_QUERY,
-                     PreparedStatement.RETURN_GENERATED_KEYS)) {
-            insertStm.setString(1, admin.getFirstName());
-            insertStm.setString(2, admin.getLastName());
-            insertStm.setString(3, admin.getEmail());
-            insertStm.setString(4, BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt()));//szyfrowani hasła przy zapisie do bazy
-            insertStm.setInt(5, admin.getSuperadmin());
-            insertStm.setInt(6, admin.getEnable());
+                     PreparedStatement.RETURN_GENERATED_KEYS)){
+            if (!isEmailExist(admin.getEmail())){
+                insertStm.setString(1, admin.getFirstName());
+                insertStm.setString(2, admin.getLastName());
+                insertStm.setString(3, admin.getEmail());
+                insertStm.setString(4, BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt()));//szyfrowanie hasła przy zapisie do bazy
+                insertStm.setInt(5, admin.getSuperadmin());
+                insertStm.setInt(6, admin.getEnable());
 
-            int result = insertStm.executeUpdate();
+                int result = insertStm.executeUpdate();
 
-            if (result != 1) {
-                throw new RuntimeException("Execute update returned " + result);
-            }
-
-            try (ResultSet generatedKeys = insertStm.getGeneratedKeys()) {
-                if (generatedKeys.first()) {
-                    admin.setId(generatedKeys.getInt(1));
-                    return admin;
-                } else {
-                    throw new RuntimeException("Generated key was not found");
+                if (result != 1) {
+                    throw new RuntimeException("Execute update returned " + result);
                 }
 
+                try (ResultSet generatedKeys = insertStm.getGeneratedKeys()) {
+                    if (generatedKeys.first()) {
+                        admin.setId(generatedKeys.getInt(1));
+                        return admin;
+                    } else {
+                        throw new RuntimeException("Generated key was not found");
+                    }
+                }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+                    e.printStackTrace();
+                }
+
+            throw new Exception("Jest już taki email w bazie");
         }
-        return null;
-    }
+
+
 
 
     /**
@@ -176,7 +198,18 @@ public class AdminDao {
 
             statement.setString(1, admin.getFirstName());
             statement.setString(2, admin.getLastName());
-            statement.setString(3, admin.getEmail());
+
+            if(admin.getEmail().equals(read(admin.getId()).getEmail())) {//jeśli nie chcemy zmienić emaila admina
+                statement.setString(3, admin.getEmail());//przypisze ten co był
+            }
+            else{//jesli podano nowy
+                if(isEmailExist(admin.getEmail())){//sprawdzamy czy taki istnieje w bazie
+                    throw new Exception("Podany email isnieje w bazie");// jesli istnieje, nie można go zmienić
+                }
+                else{
+                    statement.setString(3, admin.getEmail());//jesli nie istnieje zapisujemy nowy
+                }
+            }
 
             if(admin.getPassword() != read(admin.getId()).getPassword() ) { //jesli wprowadzono nowe hasło (obecne jest inne niż to w bazie) zaszyfruj
                 statement.setString(4, BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt()));//szyfrujemy hasło przy zapisie do bazy danych
@@ -193,6 +226,8 @@ public class AdminDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
 
     }
 
