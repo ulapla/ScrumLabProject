@@ -43,6 +43,7 @@ public class RegisterServlet extends HttpServlet {
 
         } else {
             req.setAttribute("msg", "1");//dowolna wartość obiektu, aby nie był null, na registration jsp jest if do tego
+            getServletContext().getRequestDispatcher("/registration.jsp").forward(req,resp);
 
         }
     }
