@@ -52,6 +52,30 @@ public class AdminDao {
 
     }
 
+    public Admin read(String email) {
+        Admin admin = new Admin();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ADMIN_BY_EMAIL)
+        ) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    admin.setId(resultSet.getInt("id"));
+                    admin.setFirstName(resultSet.getString("first_name"));
+                    admin.setLastName(resultSet.getString("last_name"));
+                    admin.setEmail(resultSet.getString("email"));
+                    admin.setPassword(resultSet.getString("password"));
+                    admin.setSuperadmin(resultSet.getInt("superadmin"));
+                    admin.setEnable(resultSet.getInt("enable"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return admin;
+
+    }
+
     /**
      * Return all admins
      *
@@ -172,7 +196,8 @@ public class AdminDao {
 
     }
 
-    public Admin checkPassword(String email, String password){
+    // Uwaga! metoda wyrzuca exception gdy wpisane hasło jest niepoprawne
+    public Admin checkPassword(String email, String password) throws Exception {
         Admin admin = new Admin();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ADMIN_BY_EMAIL)
@@ -187,22 +212,33 @@ public class AdminDao {
                     admin.setPassword(resultSet.getString("password"));
                     admin.setSuperadmin(resultSet.getInt("superadmin"));
                     admin.setEnable(resultSet.getInt("enable"));
-                    System.out.println(admin.getPassword());
+
                 }
-                if (BCrypt.checkpw(password, admin.getPassword())) {
-                    System.out.println("Ok");
+                if (BCrypt.checkpw(password, admin.getPassword())) { //sprawdzanie hasła
+                    //System.out.println("pssword maches");
                     return admin;
-
-
                 }
-
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+       // System.out.println("It does not match");
+        //return null;
+        throw new Exception("Niepoprawne hasło");
+    }
 
-        System.out.println("It does not match");
-        return null;
+
+
+    public boolean changePassword(Admin admin, String oldPassword, String newPassword) { //admin musi być pobrany z bazy by jego stare hasło było z
+        if (BCrypt.checkpw(oldPassword, read(admin.getId()).getPassword())) { //sprawdzanie hasła
+            //System.out.println("pssword maches");
+            admin.setPassword(newPassword);
+            update(admin);
+            return true;
+        }
+        else {
+            return false; //podano błędne stare hasło, więc nie zostało zmienione
+        }
     }
 
 }
