@@ -8,6 +8,25 @@ public class Plan {
     private String created;
     private int adminId;
 
+    @Override
+    public String toString() {
+        return "Plan{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", created='" + created + '\'' +
+                ", adminId=" + adminId +
+                '}';
+    }
+
+    public Plan() {}
+
+    public Plan(String name, String description, String created, int adminId) {
+        this.name = name;
+        this.description = description;
+        this.created = created;
+        this.adminId = adminId;
+    }
 
     public int getId() {
         return id;

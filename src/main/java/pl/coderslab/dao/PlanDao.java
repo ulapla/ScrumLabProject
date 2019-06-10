@@ -8,13 +8,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/*
-Problemy:
-1. Muszę skonsultować się, w jaki sposób chcemy wyszukiwać plan. Czy tylko po id, czy może też po name.
-2. Przy update, czy chcemy, aby data była edytowana?
-3. Czy przy Plan wystarczy standardowy konstruktor, czy przygotować coś więcej?
- */
 public class PlanDao {
 
         // ZAPYTANIA SQL
@@ -22,7 +15,7 @@ public class PlanDao {
         private static final String DELETE_PLAN_QUERY = "DELETE FROM plan WHERE id = ?;";
         private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan";
         private static final String READ_PLAN_QUERY = "SELECT * FROM plan WHERE id = ?";
-        private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ? WHERE id = ?";
+        private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ?, admin_id = ? WHERE id = ?";
 
 
         public Plan read(Integer planId) {
@@ -109,10 +102,9 @@ public class PlanDao {
             try (Connection connection = DbUtil.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PLAN_QUERY)) {
                 preparedStatement.setInt(1, planId);
-                preparedStatement.executeUpdate();
+                int result = preparedStatement.executeUpdate();
 
-                boolean deleted = preparedStatement.execute();
-                if (!deleted) {
+                if (result != 1) {
                     throw new NotFoundException("Plan not found");
                 }
             } catch (Exception e) {
@@ -125,10 +117,11 @@ public class PlanDao {
         public void update(Plan plan) {
             try (Connection connection = DbUtil.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PLAN_QUERY)) {
-                preparedStatement.setInt(4, plan.getId());
+                preparedStatement.setInt(5, plan.getId());
                 preparedStatement.setString(1, plan.getName());
                 preparedStatement.setString(2, plan.getDescription());
                 preparedStatement.setString(3, plan.getCreated());
+                preparedStatement.setInt(4, plan.getAdminId());
 
                 preparedStatement.executeUpdate();
             } catch (Exception e) {
