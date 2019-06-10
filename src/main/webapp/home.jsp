@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:jsp="http://java.sun.com/JSP/Page">
 
+
 <jsp:include page="header.jsp"/>
+
 
 <section class="padding-large bg-light">
     <div id="carouselExampleControls" class="carousel slide main-slider" data-ride="carousel">
