@@ -20,6 +20,7 @@ public class AdminDao {
     private static final String FIND_ALL_ADMINS_QUERY = "SELECT * FROM admins;";
     private static final String READ_ADMIN_QUERY = "SELECT * FROM admins WHERE id = ?;";
     private static final String UPDATE_ADMIN_QUERY = "UPDATE admins SET first_name = ? , last_name = ?, email = ?, password = ?, superadmin = ?, enable = ? WHERE	id = ?;";
+    private static final String FIND_ADMIN_BY_EMAIL = "SELECT * FROM admins WHERE email = ?;";
 
     /**
      * Get admin by id
@@ -169,6 +170,39 @@ public class AdminDao {
             e.printStackTrace();
         }
 
+    }
+
+    public Admin checkPassword(String email, String password){
+        Admin admin = new Admin();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ADMIN_BY_EMAIL)
+        ) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    admin.setId(resultSet.getInt("id"));
+                    admin.setFirstName(resultSet.getString("first_name"));
+                    admin.setLastName(resultSet.getString("last_name"));
+                    admin.setEmail(resultSet.getString("email"));
+                    admin.setPassword(resultSet.getString("password"));
+                    admin.setSuperadmin(resultSet.getInt("superadmin"));
+                    admin.setEnable(resultSet.getInt("enable"));
+                    System.out.println(admin.getPassword());
+                }
+                if (BCrypt.checkpw(password, admin.getPassword())) {
+                    System.out.println("Ok");
+                    return admin;
+
+
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("It does not match");
+        return null;
     }
 
 }
