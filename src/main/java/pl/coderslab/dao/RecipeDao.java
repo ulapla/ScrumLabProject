@@ -18,7 +18,7 @@ public class RecipeDao {
     private static final String DELETE_RECIPE_QUERY = "DELETE FROM recipe where id = ?;";
     private static final String FIND_ALL_RECIPE_QUERY = "SELECT * FROM recipe;";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
-    private static final String UPDATE_RECIPE_QUERY = "UPDATE	recipe SET name = ? , ingredients = ?, description = ?, created = ?, updated = ?, preparation_time = ?, admin_id = ? WHERE	id = ?;";
+    private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ? , ingredients = ?, description = ?, created = ?, updated = ?, preparation_time = ?, admin_id = ? WHERE id = ?;";
 
     public Recipe read(Integer recipeId) {
         Recipe recipe = new Recipe();
@@ -107,10 +107,9 @@ public class RecipeDao {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_RECIPE_QUERY)) {
             statement.setInt(1, recipeId);
-            statement.executeUpdate();
+            int result = statement.executeUpdate();
 
-            boolean deleted = statement.execute();
-            if (!deleted) {
+            if (result != 1) {
                 throw new NotFoundException("Product not found");
             }
         } catch (Exception e) {
