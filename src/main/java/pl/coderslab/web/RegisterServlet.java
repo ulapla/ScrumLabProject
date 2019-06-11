@@ -24,6 +24,7 @@ public class RegisterServlet extends HttpServlet {
         String nameParam = req.getParameter("name");
         String surnameParam = req.getParameter("surname");
         String emailParam = req.getParameter("email");
+        boolean checkPassword;
 //        if (!(emailParam.matches("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$"))) { //trzeba dopracować
 //            req.setAttribute("msg1", "1");
 //            getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
@@ -41,7 +42,8 @@ public class RegisterServlet extends HttpServlet {
             resp.sendRedirect("/login"); //kierujemy na login
 
         } else {
-            req.setAttribute("msg", "1");//dowolna wartość obiektu, aby nie był null, na registration jsp jest if do tego
+            checkPassword = false;
+            req.setAttribute("checkPassword", checkPassword);
             getServletContext().getRequestDispatcher("/registration.jsp").forward(req,resp);
 
         }

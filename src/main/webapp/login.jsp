@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <jsp:include page="header.jsp"></jsp:include>
 <form action="/login" method="post" class="padding-small text-center">
@@ -15,6 +16,9 @@
                             <input type="text" class="form-control" id="password" name="password"
                                    placeholder="podaj hasło">
                         </div>
+                        <c:if test="${check == false}">
+                          <div class="alert-info"> Dane niepoprawne</div> <br>
+                        </c:if>
                         <button class="btn btn-color rounded-0" type="submit">Zaloguj</button>
                     </form>
                 </div>
