@@ -1,11 +1,13 @@
 package pl.coderslab.dao;
 
 import pl.coderslab.exception.NotFoundException;
+import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class PlanDao {
@@ -16,7 +18,51 @@ public class PlanDao {
         private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan";
         private static final String READ_PLAN_QUERY = "SELECT * FROM plan WHERE id = ?";
         private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ?, admin_id = ? WHERE id = ?";
+        private static final String FIND_LAST_PALN_WITH_DETAILS = "SELECT day_name.name as day_name, meal_name,  recipe.name as recipe_name, recipe.description as recipe_description\n" +
+                "FROM `recipe_plan`\n" +
+                "JOIN day_name on day_name.id=day_name_id\n" +
+                "JOIN recipe on recipe.id=recipe_id WHERE\n" +
+                "recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
+                "ORDER by day_name.display_order, recipe_plan.display_order;";
 
+
+        public static List<String[]> findLastPlan(Admin admin){
+            List<String[]> detailsList = new ArrayList<>();
+            try (Connection connection = DbUtil.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(FIND_LAST_PALN_WITH_DETAILS)
+            ) {
+                preparedStatement.setInt(1, admin.getId());
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String[] details = new String[4];
+                        details[0]=resultSet.getString("day_name");
+                        details[1]=resultSet.getString("meal_name");
+                        details[2]=resultSet.getString("recipe_name");
+                        details[3]=resultSet.getString("recipe_description");
+                        detailsList.add(details);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            return detailsList;
+        }
+
+        //Ta metoda zlicza, ile dany admin ma do siebie przypisanych planów.
+        public static int userPlansQuantityCounter(int adminId) {
+            int counter = 0;
+            List<Plan> planList = findAll();
+            Iterator<Plan> iterator = planList.iterator();
+            while (iterator.hasNext()) {
+                Plan tempPlan = iterator.next();
+                if (tempPlan.getAdminId() == adminId) {
+                    counter++;
+                }
+            }
+            return counter;
+        }
 
         public static Plan read(Integer planId) {
             Plan plan = new Plan();

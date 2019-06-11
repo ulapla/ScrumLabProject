@@ -2,6 +2,7 @@ package pl.coderslab.dao;
 
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Book;
+import pl.coderslab.model.Plan;
 import pl.coderslab.model.Recipe;
 import pl.coderslab.utils.DbUtil;
 
@@ -10,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class RecipeDao {
@@ -20,6 +22,7 @@ public class RecipeDao {
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
     private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ? , ingredients = ?, description = ?, created = ?, updated = ?, preparation_time = ?, admin_id = ? WHERE id = ?;";
 
+    
     public static Recipe read(Integer recipeId) {
         Recipe recipe = new Recipe();
         try (Connection connection = DbUtil.getConnection();
@@ -132,5 +135,18 @@ public class RecipeDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static int usersRecipesCounter(int adminId) {
+        int counter = 0;
+        List<Recipe> recipeList = findAll();
+        Iterator<Recipe> iterator = recipeList.iterator();
+        while (iterator.hasNext()) {
+            Recipe tempRecipe = iterator.next();
+            if (tempRecipe.getAdminId() == adminId) {
+                counter++;
+            }
+        }
+        return counter;
     }
 }
