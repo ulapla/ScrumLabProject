@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
         } else {
             Admin admin = AdminDao.checkPassword(emailParam, passwordParam); //tworzymy obiekt admin, aby łatwiej wyciągać dane
             HttpSession session = req.getSession();
-            req.setAttribute("admin", admin);
+            session.setAttribute("admin", admin);
             getServletContext().getRequestDispatcher("/home.jsp").forward(req,resp);
         }
     }
