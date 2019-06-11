@@ -1,7 +1,7 @@
 package pl.coderslab.web;
 
-import com.sun.tools.corba.se.idl.StringGen;
 import pl.coderslab.dao.AdminDao;
+import pl.coderslab.model.Admin;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,9 +32,9 @@ public class LoginServlet extends HttpServlet {
             req.setAttribute("check", check);
             getServletContext().getRequestDispatcher("/login.jsp").forward(req,resp);
         } else {
+            Admin admin = AdminDao.checkPassword(emailParam, passwordParam); //tworzymy obiekt admin, aby łatwiej wyciągać dane
             HttpSession session = req.getSession();
-            req.setAttribute("userEmail", emailParam);
-            req.setAttribute("userPassword", passwordParam);
+            req.setAttribute("admin", admin);
             getServletContext().getRequestDispatcher("/home.jsp").forward(req,resp);
         }
     }
