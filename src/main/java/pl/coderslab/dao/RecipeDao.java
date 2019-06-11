@@ -14,11 +14,11 @@ import java.util.List;
 
 public class RecipeDao {
 
-    private static final String CREATE_RECIPE_QUERY = "INSERT INTO recipe(name, ingredients, description, created, updated, preparation_time, admin_id) VALUES (?,?,?,?,?,?,?);";
+    private static final String CREATE_RECIPE_QUERY = "INSERT INTO recipe(name, ingredients, description, created, updated, preparation_time, preparation, admin_id) VALUES (?,?,?,?,?,?,?,?);";
     private static final String DELETE_RECIPE_QUERY = "DELETE FROM recipe where id = ?;";
     private static final String FIND_ALL_RECIPE_QUERY = "SELECT * FROM recipe;";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
-    private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ? , ingredients = ?, description = ?, created = ?, updated = ?, preparation_time = ?, admin_id = ? WHERE id = ?;";
+    private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ? , ingredients = ?, description = ?, created = ?, updated = ?, preparation_time = ?, preparation = ?, admin_id = ? WHERE id = ?;";
 
     public static Recipe read(Integer recipeId) {
         Recipe recipe = new Recipe();
@@ -35,6 +35,7 @@ public class RecipeDao {
                     recipe.setCreated(resultSet.getString("created"));
                     recipe.setUpdated(resultSet.getString("updated"));
                     recipe.setPreparationTime(resultSet.getInt("preparation_time"));
+                    recipe.setPreparation(resultSet.getString("preparation"));
                     recipe.setAdminId(resultSet.getInt("admin_id"));
                 }
             }
@@ -60,6 +61,7 @@ public class RecipeDao {
                 recipeToAdd.setCreated(resultSet.getString("created"));
                 recipeToAdd.setUpdated(resultSet.getString("updated"));
                 recipeToAdd.setPreparationTime(resultSet.getInt("preparation_time"));
+                recipeToAdd.setPreparation(resultSet.getString("preparation"));
                 recipeToAdd.setAdminId(resultSet.getInt("admin_id"));
 
                 recipeList.add(recipeToAdd);
@@ -81,7 +83,8 @@ public class RecipeDao {
             insertStm.setString(4, recipe.getCreated());
             insertStm.setString(5, recipe.getUpdated());
             insertStm.setInt(6, recipe.getPreparationTime());
-            insertStm.setInt(7, recipe.getAdminId());
+            insertStm.setString(7, recipe.getPreparation());
+            insertStm.setInt(8, recipe.getAdminId());
             int result = insertStm.executeUpdate();
 
             if (result != 1) {
@@ -127,7 +130,8 @@ public class RecipeDao {
             statement.setString(4, recipe.getCreated());
             statement.setString(5, recipe.getUpdated());
             statement.setInt(6, recipe.getPreparationTime());
-            statement.setInt(7, recipe.getAdminId());
+            statement.setString(7, recipe.getPreparation());
+            statement.setInt(8, recipe.getAdminId());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
