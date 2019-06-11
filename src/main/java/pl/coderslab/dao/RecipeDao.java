@@ -2,6 +2,7 @@ package pl.coderslab.dao;
 
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Book;
+import pl.coderslab.model.Plan;
 import pl.coderslab.model.Recipe;
 import pl.coderslab.utils.DbUtil;
 
@@ -10,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class RecipeDao {
@@ -22,7 +24,7 @@ public class RecipeDao {
     private static final String FIND_USER_RECIPES_QUERY = "SELECT COUNT(name)\n" +
             "FROM (admins LEFT JOIN recipe\n" +
             "ON admins.id = recipe.admin_id WHERE admin_id = ?)";
-    
+
     public Recipe read(Integer recipeId) {
         Recipe recipe = new Recipe();
         try (Connection connection = DbUtil.getConnection();
@@ -135,5 +137,18 @@ public class RecipeDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public int usersRecipesCounter(int adminId) {
+        int counter = 0;
+        List<Recipe> recipeList = findAll();
+        Iterator<Recipe> iterator = recipeList.iterator();
+        while (iterator.hasNext()) {
+            Recipe tempRecipe = iterator.next();
+            if (tempRecipe.getAdminId() == adminId) {
+                counter++;
+            }
+        }
+        return counter;
     }
 }
