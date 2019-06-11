@@ -18,7 +18,7 @@ public class PlanDao {
         private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ?, admin_id = ? WHERE id = ?";
 
 
-        public Plan read(Integer planId) {
+        public static Plan read(Integer planId) {
             Plan plan = new Plan();
             try (Connection connection = DbUtil.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(READ_PLAN_QUERY)
@@ -42,7 +42,7 @@ public class PlanDao {
 
 
 
-        public List<Plan> findAll() {
+        public static List<Plan> findAll() {
             List<Plan> planList = new ArrayList<>();
             try (Connection connection = DbUtil.getConnection();
                  ResultSet resultSet = connection.createStatement().executeQuery(FIND_ALL_PLANS_QUERY)) {
@@ -66,7 +66,7 @@ public class PlanDao {
 
 
 
-        public Plan create(Plan plan) {
+        public static Plan create(Plan plan) {
             try (Connection connection = DbUtil.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(CREATE_PLAN_QUERY,
                          PreparedStatement.RETURN_GENERATED_KEYS))
@@ -98,7 +98,7 @@ public class PlanDao {
 
 
 
-        public void delete(Integer planId) {
+        public static void delete(Integer planId) {
             try (Connection connection = DbUtil.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PLAN_QUERY)) {
                 preparedStatement.setInt(1, planId);
@@ -114,7 +114,7 @@ public class PlanDao {
 
 
 
-        public void update(Plan plan) {
+        public static void update(Plan plan) {
             try (Connection connection = DbUtil.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PLAN_QUERY)) {
                 preparedStatement.setInt(5, plan.getId());
