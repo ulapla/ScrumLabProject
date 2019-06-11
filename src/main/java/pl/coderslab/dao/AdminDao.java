@@ -29,7 +29,7 @@ public class AdminDao {
      * @param adminId
      * @return
      */
-    public Admin read(Integer adminId) {
+    public static Admin read(Integer adminId) {
         Admin admin = new Admin();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(READ_ADMIN_QUERY)
@@ -53,7 +53,7 @@ public class AdminDao {
 
     }
 
-    public Admin read(String email) {
+    public static Admin read(String email) {
         Admin admin = new Admin();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ADMIN_BY_EMAIL)
@@ -77,7 +77,7 @@ public class AdminDao {
 
     }
 
-    private boolean isEmailExist(String email){
+    private static boolean isEmailExist(String email){
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ADMIN_BY_EMAIL)) {
 
@@ -99,7 +99,7 @@ public class AdminDao {
      *
      * @return
      */
-    public List<Admin> findAll() {
+    public static List<Admin> findAll() {
         List<Admin> adminsList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_ADMINS_QUERY);
@@ -129,8 +129,10 @@ public class AdminDao {
      *
      * @param admin
      * @return
+     *
+     * Jesli email tworzonego admina jest już w bazie zwróci null
      */
-    public Admin create(Admin admin) throws Exception {
+    public static Admin create(Admin admin) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement insertStm = connection.prepareStatement(CREATE_ADMIN_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)){
@@ -161,7 +163,7 @@ public class AdminDao {
                     e.printStackTrace();
                 }
 
-            throw new Exception("Jest już taki email w bazie");
+            return null;
         }
 
 
@@ -172,7 +174,7 @@ public class AdminDao {
      *
      * @param adminId
      */
-    public void delete(Integer adminId) {
+    public static void delete(Integer adminId) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_ADMIN_QUERY)) {
             statement.setInt(1, adminId);
@@ -192,24 +194,14 @@ public class AdminDao {
      *
      * @param admin
      */
-    public void update(Admin admin) {
+    public static void update(Admin admin) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_ADMIN_QUERY)) {
 
             statement.setString(1, admin.getFirstName());
             statement.setString(2, admin.getLastName());
+            statement.setString(3, read(admin.getId()).getEmail());//przypisze email z bazy - nie ma możliwości zmiany emaila
 
-            if(admin.getEmail().equals(read(admin.getId()).getEmail())) {//jeśli nie chcemy zmienić emaila admina
-                statement.setString(3, admin.getEmail());//przypisze ten co był
-            }
-            else{//jesli podano nowy
-                if(isEmailExist(admin.getEmail())){//sprawdzamy czy taki istnieje w bazie
-                    throw new Exception("Podany email isnieje w bazie");// jesli istnieje, nie można go zmienić
-                }
-                else{
-                    statement.setString(3, admin.getEmail());//jesli nie istnieje zapisujemy nowy
-                }
-            }
 
             if(admin.getPassword() != read(admin.getId()).getPassword() ) { //jesli wprowadzono nowe hasło (obecne jest inne niż to w bazie) zaszyfruj
                 statement.setString(4, BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt()));//szyfrujemy hasło przy zapisie do bazy danych
@@ -231,8 +223,8 @@ public class AdminDao {
 
     }
 
-    // Uwaga! metoda wyrzuca exception gdy wpisane hasło jest niepoprawne
-    public Admin checkPassword(String email, String password) throws Exception {
+    // Uwaga! metoda zwraca null gdy wpisane hasło jest niepoprawne
+    public static Admin checkPassword(String email, String password) {
         Admin admin = new Admin();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ADMIN_BY_EMAIL)
@@ -257,14 +249,13 @@ public class AdminDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-       // System.out.println("It does not match");
-        //return null;
-        throw new Exception("Niepoprawne hasło");
+       // System.out.println("password does not match");
+        return null;
     }
 
 
 
-    public boolean changePassword(Admin admin, String oldPassword, String newPassword) { //admin musi być pobrany z bazy by jego stare hasło było z
+    public static boolean changePassword(Admin admin, String oldPassword, String newPassword) { //admin musi być pobrany z bazy by jego stare hasło było z
         if (BCrypt.checkpw(oldPassword, read(admin.getId()).getPassword())) { //sprawdzanie hasła
             //System.out.println("pssword maches");
             admin.setPassword(newPassword);
