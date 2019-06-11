@@ -6,6 +6,7 @@ import pl.coderslab.utils.DbUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class PlanDao {
@@ -17,6 +18,19 @@ public class PlanDao {
         private static final String READ_PLAN_QUERY = "SELECT * FROM plan WHERE id = ?";
         private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ?, admin_id = ? WHERE id = ?";
 
+        //Ta metoda zlicza, ile dany admin ma do siebie przypisanych planów.
+        public static int userPlansQuantityCounter(int adminId) {
+            int counter = 0;
+            List<Plan> planList = findAll();
+            Iterator<Plan> iterator = planList.iterator();
+            while (iterator.hasNext()) {
+                Plan tempPlan = iterator.next();
+                if (tempPlan.getAdminId() == adminId) {
+                    counter++;
+                }
+            }
+            return counter;
+        }
 
         public static Plan read(Integer planId) {
             Plan plan = new Plan();
