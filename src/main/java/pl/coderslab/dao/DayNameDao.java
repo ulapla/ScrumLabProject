@@ -13,7 +13,7 @@ import java.util.List;
 public class DayNameDao {
     public static final String FIND_ALL_DAY_NAME_QUERY = "SELECT * FROM day_name;";
 
-    public List<DayName> findAll() {
+    public static List<DayName> findAll() {
         List<DayName> dayNameList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_DAY_NAME_QUERY);

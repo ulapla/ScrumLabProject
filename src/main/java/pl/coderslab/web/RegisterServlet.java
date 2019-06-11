@@ -37,8 +37,7 @@ public class RegisterServlet extends HttpServlet {
             newAdmin.setEmail(emailParam);
             newAdmin.setPassword(checkEqualsPassword[0]);
 
-            AdminDao adminDao = new AdminDao();
-            adminDao.create(newAdmin); //zapisujemy do bazy admina, który się zarejestrował
+            AdminDao.create(newAdmin); //zapisujemy do bazy admina, który się zarejestrował
             resp.sendRedirect("/login"); //kierujemy na login
 
         } else {
