@@ -30,10 +30,11 @@
                         <div class="form-group">
                             <input type="text" class="form-control" id="repassword" name="password" placeholder="powtórz hasło">
                         </div>
+                         <c:if test="${checkPassword == false}">
+                            <div class="alert-info">Wprowadź takie same hasła!</div>
+                        </c:if> <br>
                         <button class="btn btn-color rounded-0" type="submit">Zarejestruj</button>
-                        <c:if test="${msg != null}">
-                            <div class="form-group">Wprowadź takie same hasła!</div>
-                        </c:if>
+
                     </form>
                  </div>
             </div>

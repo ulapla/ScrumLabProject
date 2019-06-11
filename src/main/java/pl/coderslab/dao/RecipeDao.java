@@ -25,7 +25,7 @@ public class RecipeDao {
             "FROM (admins LEFT JOIN recipe\n" +
             "ON admins.id = recipe.admin_id WHERE admin_id = ?)";
 
-    public Recipe read(Integer recipeId) {
+    public static Recipe read(Integer recipeId) {
         Recipe recipe = new Recipe();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(READ_RECIPE_QUERY)
@@ -50,7 +50,7 @@ public class RecipeDao {
 
     }
 
-    public List<Recipe> findAll() {
+    public static List<Recipe> findAll() {
         List<Recipe> recipeList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPE_QUERY);
@@ -76,7 +76,7 @@ public class RecipeDao {
         return recipeList;
     }
 
-    public Recipe create(Recipe recipe) {
+    public static Recipe create(Recipe recipe) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement insertStm = connection.prepareStatement(CREATE_RECIPE_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -108,7 +108,7 @@ public class RecipeDao {
         return null;
     }
 
-    public void delete(Integer recipeId) {
+    public static void delete(Integer recipeId) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_RECIPE_QUERY)) {
             statement.setInt(1, recipeId);
@@ -122,7 +122,7 @@ public class RecipeDao {
         }
     }
 
-    public void update(Recipe recipe) {
+    public static void update(Recipe recipe) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_RECIPE_QUERY)) {
             statement.setInt(8, recipe.getId());
