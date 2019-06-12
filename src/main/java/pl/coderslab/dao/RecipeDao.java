@@ -155,12 +155,12 @@ public class RecipeDao {
         return counter;
     }
 
-    public static List<Recipe> findAllByAdminId(Integer id) {
+    public static List<Recipe> findAllByAdminId(int id) {
         List<Recipe> recipeList = new ArrayList<>();
-        try (Connection connection = DbUtil.getConnection();
+        try (Connection connection = DbUtil.getConnection()){
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPE_BY_ADMINID_QUERY);
              statement.setInt(1, id);
-             ResultSet resultSet = statement.executeQuery()) {
+             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 Recipe recipeToAdd = new Recipe();
