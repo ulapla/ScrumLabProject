@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/app.recipe/list")
+@WebServlet(urlPatterns = "/app.recipes/list")
 public class AppRecipeServlet extends HttpServlet {
 
     @Override
