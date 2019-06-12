@@ -155,11 +155,11 @@ public class RecipeDao {
         return counter;
     }
 
-    public static List<Recipe> findAllByAdminID(int id) {
+    public static List<Recipe> findAllByAdminId(Integer id) {
         List<Recipe> recipeList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPE_BY_ADMINID_QUERY);
-//             statement.setInt(1, id); //nie można przypisac zmiennej!!!?
+             statement.setInt(1, id);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
