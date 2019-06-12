@@ -16,18 +16,10 @@ import java.time.format.DateTimeFormatter;
 Dodatkowo, zabezpieczyłem się przed wystąpieniem potencjalnego wyjątku wynikającego z pustego pola poprzez dodanie if.
  */
 @WebServlet(urlPatterns = "/app.recipe/add")
-public class RecipeAdd extends HttpServlet {
+public class AppRecipeAdd extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        //Chcę wyświetlać w prawym górnym rogu pierwsze imię użytkownika.
-        HttpSession session = req.getSession();
-        Admin admin = (Admin) session.getAttribute("admin");
-        String adminName = admin.getFirstName();
-        Cookie cookie = new Cookie("adminName", adminName);
-        resp.addCookie(cookie);
-
         getServletContext().getRequestDispatcher("/app.RecipeAdd.jsp").forward(req,resp);
     }
 
