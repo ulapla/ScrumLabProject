@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @WebServlet(urlPatterns = "/app.plan/add")
-public class PlanAdd extends HttpServlet {
+public class AppPlanAdd extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/planadd.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/app.planadd.jsp").forward(req, resp);
     }
 
     @Override
