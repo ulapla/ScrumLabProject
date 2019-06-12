@@ -25,6 +25,7 @@ public class PlanDao {
             "recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
             "ORDER by day_name.display_order, recipe_plan.display_order;";
     private static final String FIND_ALL_PLAN_BY_ADMINID = "SELECT * FROM plan WHERE admin_ID = ?;";
+    private static final String ADD_RECIPE_TO_PLAN = "INSERT INTO recipe_plan (recipe_id, meal_name, display_order, day_name_id, plan_id) VALUES (?, ?, ?, ?, ?)";
 
 
     public static List<String[]> findLastPlan(Admin admin) {
@@ -94,7 +95,7 @@ public class PlanDao {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
-             while (resultSet.next()) {
+            while (resultSet.next()) {
                 Plan planToAdd = new Plan();
                 planToAdd.setId(resultSet.getInt("id"));
                 planToAdd.setName(resultSet.getString("name"));
@@ -161,6 +162,21 @@ public class PlanDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void AddRecipeToPlan(int recipeId, String mealName, int displayOrder, int dayName, int planId) {
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(ADD_RECIPE_TO_PLAN);
+            preparedStatement.setInt(1, recipeId);
+            preparedStatement.setString(2, mealName);
+            preparedStatement.setInt(3, displayOrder);
+            preparedStatement.setInt(4, dayName);
+            preparedStatement.setInt(5, planId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

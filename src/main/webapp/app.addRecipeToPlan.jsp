@@ -47,7 +47,7 @@
                         Wybierz plan
                     </label>
                     <div class="col-sm-3">
-                        <select class="form-control" id="choosePlan">
+                        <select class="form-control" id="choosePlan" name="choosePlan">
                             <c:forEach items="${listPlan}" var="plan">
                             <option>
                                     ${plan.name}
@@ -61,7 +61,7 @@
                         Nazwa posiłku
                     </label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" value="" id="name" placeholder="Nazwa posiłku">
+                        <input type="text" class="form-control" value="" id="name" name="name" placeholder="Nazwa posiłku">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -69,7 +69,7 @@
                         Numer posiłku
                     </label>
                     <div class="col-sm-2">
-                        <input type="number" class="form-control" value="" id="number" placeholder="Numer posiłki">
+                        <input type="number" class="form-control" value="" id="number" name="number" placeholder="Numer posiłki">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -77,7 +77,7 @@
                         Przepis
                     </label>
                     <div class="col-sm-4">
-                        <select class="form-control" id="recipie">
+                        <select class="form-control" id="recipie" name="recipie">
                             <c:forEach items="${listRecipe}" var="recipe">
                             <option>
                                     ${recipe.name}
@@ -91,7 +91,7 @@
                         Dzień
                     </label>
                     <div class="col-sm-2">
-                        <select class="form-control" id="day">
+                        <select class="form-control" id="day" name="day">
                             <c:forEach items="${listDay}" var="day">
                             <option>
                                 ${day.name}
