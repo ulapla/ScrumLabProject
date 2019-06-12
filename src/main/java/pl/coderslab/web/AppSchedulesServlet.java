@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet (urlPatterns = "/app.schedules")
+@WebServlet (urlPatterns = "/app.plan/list")
 public class AppSchedulesServlet extends HttpServlet {
 
     @Override
