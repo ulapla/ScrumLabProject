@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/app/recipe/plan/add")
+@WebServlet(urlPatterns = "/app.recipe/plan/add")
 public class AppAddRecipeToPlan extends HttpServlet {
 
     @Override
