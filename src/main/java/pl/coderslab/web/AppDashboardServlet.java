@@ -36,6 +36,8 @@ public class AppDashboardServlet extends HttpServlet {
         planDetalis.add(s2);
         planDetalis.add(s3);
         */
+        String planName = PlanDao.findUserPlans(admin).get(0).getName();
+        req.setAttribute("planName",planName);
         req.setAttribute("planDetails",planDetalis);
 
 
