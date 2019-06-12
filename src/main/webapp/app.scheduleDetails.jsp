@@ -110,36 +110,27 @@
                         </tr>
                         </thead>
                         <tbody class="text-color-lighter">
+                        <c:forEach var="recipePlan" items="${listRecipePlan}">
+                            <c:if test="${dayName.id} == ${recipePlan.dayNameId}">
                         <tr class="d-flex">
-                            <td class="col-2">śniadanie</td>
-                            <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
+                            <td class="col-2">${recipePlan.mealName}</td>
+                            <td class="col-7">
+                                <c:forEach var="recipe" items="${hashSetRecipe}">
+                                    <c:if test="${recipe.id} == ${recipePlan.recipeId}">
+                                        ${recipe.name}
+                                    </c:if>
+                                </c:forEach>
+                            </td>
                             <td class="col-1 center">
+                                <!--Zwrócić tutaj uwagę na hrefy, czy są odpowiednie. -->
                                 <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                             </td>
                             <td class="col-2 center">
                                 <a href="app-details-schedules.html" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
                             </td>
                         </tr>
-                        <tr class="d-flex">
-                            <td class="col-2">śniadanie</td>
-                            <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
-                            <td class="col-1 center">
-                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                            </td>
-                            <td class="col-2 center">
-                                <a href="app-details-schedules.html" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                            </td>
-                        </tr>
-                        <tr class="d-flex">
-                            <td class="col-2">śniadanie</td>
-                            <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
-                            <td class="col-1 center">
-                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                            </td>
-                            <td class="col-2 center">
-                                <a href="app-details-schedules.html" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                            </td>
-                        </tr>
+                            </c:if>
+                        </c:forEach>
                         </tbody>
                     </table>
                     </c:forEach>
