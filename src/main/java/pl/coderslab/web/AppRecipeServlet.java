@@ -25,6 +25,6 @@ public class AppRecipeServlet extends HttpServlet {
 
         req.setAttribute("listRecipe", listRecipe); //przekazane do jsp, w jsp pętla for each
 
-        getServletContext().getRequestDispatcher("/recipe_list.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/app.recipes.jsp").forward(req, resp);
     }
 }
