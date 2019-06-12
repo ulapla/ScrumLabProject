@@ -1,6 +1,7 @@
 package pl.coderslab.dao;
 
 import pl.coderslab.exception.NotFoundException;
+import pl.coderslab.model.Admin;
 import pl.coderslab.model.Book;
 import pl.coderslab.model.Plan;
 import pl.coderslab.model.Recipe;
@@ -21,7 +22,7 @@ public class RecipeDao {
     private static final String FIND_ALL_RECIPE_QUERY = "SELECT * FROM recipe;";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
     private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ? , ingredients = ?, description = ?, created = ?, updated = ?, preparation_time = ?, preparation = ?, admin_id = ? WHERE id = ?;";
-
+    private static final String FIND_ALL_RECIPE_BY_ADMINID_QUERY = "SELECT * FROM recipe WHERE admin_id = ?;";
     
     public static Recipe read(Integer recipeId) {
         Recipe recipe = new Recipe();
@@ -152,5 +153,33 @@ public class RecipeDao {
             }
         }
         return counter;
+    }
+
+    public static List<Recipe> findAllByAdminId(int id) {
+        List<Recipe> recipeList = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection()){
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPE_BY_ADMINID_QUERY);
+             statement.setInt(1, id);
+             ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Recipe recipeToAdd = new Recipe();
+                recipeToAdd.setId(resultSet.getInt("id"));
+                recipeToAdd.setName(resultSet.getString("name"));
+                recipeToAdd.setIngredients(resultSet.getString("ingredients"));
+                recipeToAdd.setDescription(resultSet.getString("description"));
+                recipeToAdd.setCreated(resultSet.getString("created"));
+                recipeToAdd.setUpdated(resultSet.getString("updated"));
+                recipeToAdd.setPreparationTime(resultSet.getInt("preparation_time"));
+                recipeToAdd.setPreparation(resultSet.getString("preparation"));
+                recipeToAdd.setAdminId(resultSet.getInt("admin_id"));
+
+                recipeList.add(recipeToAdd);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return recipeList;
     }
 }
