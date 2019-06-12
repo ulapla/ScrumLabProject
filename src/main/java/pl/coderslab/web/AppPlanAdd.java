@@ -26,21 +26,28 @@ public class AppPlanAdd extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Plan plan = new Plan();
 
-        plan.setName(req.getParameter("planName"));
-        plan.setDescription(req.getParameter("planDescription"));
+        if (req.getParameter("planName").equals("") ||
+                req.getParameter("planDescription").equals("")) {
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
-        String formattedDate = localDateTime.format(dateTimeFormatter);
-        plan.setCreated(formattedDate);
+            doGet(req, resp);
 
-        HttpSession session = req.getSession();
-        Admin admin = (Admin) session.getAttribute("admin");
-        plan.setAdminId(admin.getId());
-        PlanDao.create(plan);
+        } else {
+            plan.setName(req.getParameter("planName"));
+            plan.setDescription(req.getParameter("planDescription"));
 
-        resp.sendRedirect("/app.plan/list");
+            LocalDateTime localDateTime = LocalDateTime.now();
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
+            String formattedDate = localDateTime.format(dateTimeFormatter);
+            plan.setCreated(formattedDate);
+
+            HttpSession session = req.getSession();
+            Admin admin = (Admin) session.getAttribute("admin");
+            plan.setAdminId(admin.getId());
+            PlanDao.create(plan);
+
+            resp.sendRedirect("/app.plan/list");
 
 
+        }
     }
 }
