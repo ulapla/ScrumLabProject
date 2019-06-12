@@ -24,6 +24,32 @@ public class PlanDao {
                 "JOIN recipe on recipe.id=recipe_id WHERE\n" +
                 "recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
                 "ORDER by day_name.display_order, recipe_plan.display_order;";
+        public static final String FIND_USERS_PLANS = "SELECT * FROM plan WHERE admin_id = ? ORDER BY created DESC";
+
+
+
+        public static List<Plan> findUserPlans(Admin admin){
+            List<Plan> planList = new ArrayList<>();
+            try (Connection connection = DbUtil.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(FIND_USERS_PLANS)) {
+                preparedStatement.setInt(1, admin.getId());
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Plan planToAdd = new Plan();
+                        planToAdd.setId(resultSet.getInt("id"));
+                        planToAdd.setName(resultSet.getString("name"));
+                        planToAdd.setDescription(resultSet.getString("description"));
+                        planToAdd.setCreated(resultSet.getString("created"));
+                        planToAdd.setAdminId(resultSet.getInt("admin_id"));
+                        planList.add(planToAdd);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return planList;
+
+        }
 
 
         public static List<String[]> findLastPlan(Admin admin){
