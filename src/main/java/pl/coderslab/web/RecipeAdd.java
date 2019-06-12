@@ -6,45 +6,69 @@ import pl.coderslab.model.Recipe;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
+/*Założenie: atrybut updated klasy Recipe jest związany z momentem, w którym edytowano Recipe, także nie zapisuję tam żadnych danych.
+Dodatkowo, zabezpieczyłem się przed wystąpieniem potencjalnego wyjątku wynikającego z pustego pola poprzez dodanie if.
+ */
 @WebServlet(urlPatterns = "/app.recipe/add")
 public class RecipeAdd extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/RecipeAdd.jsp").forward(req,resp);
+
+        //Chcę wyświetlać w prawym górnym rogu pierwsze imię użytkownika.
+        HttpSession session = req.getSession();
+        Admin admin = (Admin) session.getAttribute("admin");
+        String adminName = admin.getFirstName();
+        Cookie cookie = new Cookie("adminName", adminName);
+        resp.addCookie(cookie);
+
+        getServletContext().getRequestDispatcher("/app.RecipeAdd.jsp").forward(req,resp);
     }
 
-    //Nie ma w klasie Recipe atrybutu Preparation
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Recipe recipe = new Recipe();
 
-        //Wczytywanie danych z formularza
-        recipe.setName(req.getParameter("name"));
-        recipe.setDescription(req.getParameter("description"));
-        recipe.setPreparationTime(Integer.parseInt(req.getParameter("preparationTime")));
-        recipe.setIngredients(req.getParameter("ingredients"));
+        /*Sprawdzam pola formularza, czy wszystkie zostały wypełnione. Odsyłam korzystając z doGet, które inicjuje wszystko od początku.
+         */
+        if      (req.getParameter("name").equals("") ||
+                req.getParameter("description").equals("") ||
+                req.getParameter("preparationTime").equals("") ||
+                req.getParameter("preparation").equals("") ||
+                req.getParameter("ingredients").equals("") ) {
 
-        //Wczytywanie daty i czasu utworzenia
-        LocalDateTime localDateTime =  LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
-        String formattedDate = localDateTime.format(formatter);
-        recipe.setCreated(formattedDate);
+            doGet(req, resp);
 
-        //Wczytywanie admina z sesji
-        HttpSession session = req.getSession();
-        Admin admin = (Admin) session.getAttribute("admin");
-        recipe.setAdminId(admin.getId());
+        } else {
+            //Wczytywanie danych z formularza
+            recipe.setName(req.getParameter("name"));
+            recipe.setDescription(req.getParameter("description"));
+            recipe.setPreparationTime(Integer.parseInt(req.getParameter("preparationTime")));
+            recipe.setPreparation(req.getParameter("preparation"));
+            recipe.setIngredients(req.getParameter("ingredients"));
 
-        RecipeDao.create(recipe);
+            //Wczytywanie daty i czasu utworzenia
+            LocalDateTime localDateTime =  LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
+            String formattedDate = localDateTime.format(formatter);
+            recipe.setCreated(formattedDate);
+
+            //Wczytywanie admina z sesji
+            HttpSession session = req.getSession();
+            Admin admin = (Admin) session.getAttribute("admin");
+            recipe.setAdminId(admin.getId());
+
+            RecipeDao.create(recipe);
+
+            doGet(req, resp);
+        }
+
+
     }
 }
