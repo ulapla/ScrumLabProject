@@ -58,7 +58,7 @@ public class AppRecipeAdd extends HttpServlet {
 
             RecipeDao.create(recipe);
 
-            doGet(req, resp);
+            resp.sendRedirect("/app.recipes/list");
         }
 
 
