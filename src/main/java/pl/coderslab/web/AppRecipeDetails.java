@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/app/recipe/details")
+@WebServlet(urlPatterns = "/app.recipe/details")
 public class AppRecipeDetails extends HttpServlet {
 
     @Override

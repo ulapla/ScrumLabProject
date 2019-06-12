@@ -71,46 +71,81 @@
                 </a>
             </li>
         </ul>
-
-
         <div class="m-4 p-3 width-medium">
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
                 <div class="row border-bottom border-3 p-1 m-1">
-                    <div class="col noPadding"><h3 class="color-header text-uppercase">Lista Przepisów</h3></div>
-                    <div class="col noPadding d-flex justify-content-end mb-2"><a href="/app.recipe/add"
-                                                                                  class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj
-                        przepis</a></div>
+                    <div class="col noPadding">
+                        <h3 class="color-header text-uppercase">DODAJ PRZEPIS DO PLANU</h3>
+                    </div>
                 </div>
-                <table class="table border-bottom schedules-content">
-                    <thead>
-                    <tr class="d-flex text-color-darker">
-                        <th scope="col" class="col-1">ID</th>
-                        <th scope="col" class="col-2">NAZWA</th>
-                        <th scope="col" class="col-7">OPIS</th>
-                        <th scope="col" class="col-2 center">AKCJE</th>
-                    </tr>
-                    </thead>
-                    <tbody class="text-color-lighter">
-                    <c:forEach var="recipe" items="${listRecipe}">
-                        <tr class="d-flex">
-                            <th scope="row" class="col-1">${recipe.id}</th>
-                            <td class="col-2">
-                                ${recipe.name}
-                            </td>
-                            <td class="col-7">${recipe.description}
-                            </td>
-                            <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
-                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                                <a href="/app/recipe/details?id=${recipe.id}"
-                                   class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                                <a href="/app-edit-recipe.html"
-                                   class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
-                            </td>
-                        </tr>
 
-                    </c:forEach>
-                    </tbody>
-                </table>
+                <div class="schedules-content">
+                    <form action="/app/recipe/plan/add" method="post">
+                        <div class="form-group row">
+                            <label for="choosePlan" class="col-sm-2 label-size col-form-label">
+                                Wybierz plan
+                            </label>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="choosePlan" name="choosePlan">
+                                    <c:forEach items="${listPlan}" var="plan">
+                                        <option>
+                                                ${plan.name}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-2 label-size col-form-label">
+                                Nazwa posiłku
+                            </label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" value="" id="name" name="name"
+                                       placeholder="Nazwa posiłku">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="number" class="col-sm-2 label-size col-form-label">
+                                Numer posiłku
+                            </label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" value="" id="number" name="number"
+                                       placeholder="Numer posiłki">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="recipie" class="col-sm-2 label-size col-form-label">
+                                Przepis
+                            </label>
+                            <div class="col-sm-4">
+                                <select class="form-control" id="recipie" name="recipie">
+                                    <c:forEach items="${listRecipe}" var="recipe">
+                                        <option>
+                                                ${recipe.name}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="day" class="col-sm-2 label-size col-form-label">
+                                Dzień
+                            </label>
+                            <div class="col-sm-2">
+                                <select class="form-control" id="day" name="day">
+                                    <c:forEach items="${listDay}" var="day">
+                                        <option>
+                                                ${day.name}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col d-flex justify-content-end mb-2 noPadding">
+                            <input type="submit" value="Zapisz" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

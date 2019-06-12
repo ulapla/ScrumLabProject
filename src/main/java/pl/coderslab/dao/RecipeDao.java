@@ -22,7 +22,7 @@ public class RecipeDao {
     private static final String FIND_ALL_RECIPE_QUERY = "SELECT * FROM recipe;";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
     private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ? , ingredients = ?, description = ?, created = ?, updated = ?, preparation_time = ?, preparation = ?, admin_id = ? WHERE id = ?;";
-    private static final String FIND_ALL_RECIPE_BY_ADMINID_QUERY = "SELECT * FROM recipe WHERE admin_id = ?;";
+    private static final String FIND_ALL_RECIPE_BY_ADMINID_QUERY = "SELECT * FROM recipe WHERE admin_id = ? ORDER BY created;";
     
     public static Recipe read(Integer recipeId) {
         Recipe recipe = new Recipe();
