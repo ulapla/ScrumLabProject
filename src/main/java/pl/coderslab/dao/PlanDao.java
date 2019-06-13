@@ -193,6 +193,12 @@ public class PlanDao {
                                        int planId) {
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_RECIPE_TO_PLAN);
+            System.out.println("PlanDao");
+            System.out.println(recipeId);
+            System.out.println(mealName);
+            System.out.println(displayOrder);
+            System.out.println(dayName);
+            System.out.println(planId);
             preparedStatement.setInt(1, recipeId);
             preparedStatement.setString(2, mealName);
             preparedStatement.setInt(3, displayOrder);
