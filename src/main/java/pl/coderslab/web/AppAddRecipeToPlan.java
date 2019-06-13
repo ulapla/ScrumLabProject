@@ -82,6 +82,6 @@ public class AppAddRecipeToPlan extends HttpServlet {
 
         PlanDao.AddRecipeToPlan(idRecipe, nameRecipeParam, displayOrder, idDay, idPlan);
 
-        resp.sendRedirect("/app/recipe/plan/add");
+        resp.sendRedirect("/app.recipe/plan/add");
     }
 }
