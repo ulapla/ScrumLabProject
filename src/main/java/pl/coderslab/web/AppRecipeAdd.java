@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
-/*Założenie: atrybut updated klasy Recipe jest związany z momentem, w którym edytowano Recipe, także nie zapisuję tam żadnych danych.
-Dodatkowo, zabezpieczyłem się przed wystąpieniem potencjalnego wyjątku wynikającego z pustego pola poprzez dodanie if.
+/*
+Zabezpieczyłem się przed wystąpieniem potencjalnego wyjątku wynikającego z pustego pola w formularzu poprzez dodanie if.
  */
 @WebServlet(urlPatterns = "/app.recipe/add")
 public class AppRecipeAdd extends HttpServlet {
@@ -50,6 +50,7 @@ public class AppRecipeAdd extends HttpServlet {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
             String formattedDate = localDateTime.format(formatter);
             recipe.setCreated(formattedDate);
+            recipe.setUpdated(formattedDate);
 
             //Wczytywanie admina z sesji
             HttpSession session = req.getSession();
