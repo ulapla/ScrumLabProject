@@ -29,7 +29,6 @@ public class AppRecipeServlet extends HttpServlet {
         przy przycisku "Powrót"
          */
         String originURL = req.getRequestURI();
-        System.out.println(originURL);
         session.setAttribute("recipeDetailBackButton", originURL);
 
         getServletContext().getRequestDispatcher("/app.recipes.jsp").forward(req, resp);
