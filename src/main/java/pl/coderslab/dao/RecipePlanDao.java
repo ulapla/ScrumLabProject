@@ -1,6 +1,6 @@
 package pl.coderslab.dao;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
+import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.RecipePlan;
 import pl.coderslab.utils.DbUtil;
 
@@ -17,7 +17,23 @@ public class RecipePlanDao {
             "WHERE recipe_plan.plan_id = ?\n" +
             "ORDER BY display_order";
 
-    private static final String FIND_ALL_PLAN_RECIPE_BY_RECIPE_ID = "SELECT * FROM scrumlab.recipe_plan WHERE recipe_id = ?;";
+    private static final String FIND_ALL_PLAN_RECIPE_BY_RECIPE_ID = "SELECT * FROM scrumlab.recipe_plan WHERE recipe_id = ?";
+
+    private static final String DELETE_RECIPEPLAN_QUERY = "DELETE FROM recipe_plan WHERE id = ?";
+
+    public static void delete(int recipePlanId) {
+        try (Connection connection = DbUtil.getConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_RECIPEPLAN_QUERY);
+            preparedStatement.setInt(1, recipePlanId);
+            int result = preparedStatement.executeUpdate();
+
+            if (result != 1) {
+                throw new NotFoundException("Plan not found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static List<RecipePlan> readByPlanId(int planId) {
         List<RecipePlan> list = new ArrayList<>();
