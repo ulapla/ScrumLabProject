@@ -76,8 +76,9 @@
                 <div class="mt-4 ml-4 mr-4">
                     <!-- fix action, method -->
                     <!-- add name attribute for all inputs -->
-                    <form>
+                    <form action="/app.recipe/edit" method="post">
                         <div class="row border-bottom border-3">
+
                             <div class="col"><h3 class="color-header text-uppercase">Edycja przepisu</h3></div>
                             <div class="col d-flex justify-content-end mb-2"><button type="submit" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Zapisz</button></div>
                         </div>
@@ -87,17 +88,18 @@
                             <tr class="d-flex">
                                 <th scope="row" class="col-2">Nazwa Przepisu</th>
                                 <td class="col-7">
-                                    <input class="w-100 p-1" value="${recipe.name}">
+                                    <input class="w-100 p-1" name="name" value="${recipe.name}">
+                                    <input type="hidden" name="recipeId" value="${param.id}">
                                 </td>
                             </tr>
                             <tr class="d-flex">
                                 <th scope="row" class="col-2">Opis przepisu</th>
-                                <td class="col-7"> <textarea class="w-100 p-1" rows="5">${recipe.description}</textarea></td>
+                                <td class="col-7"> <textarea class="w-100 p-1" name="description" rows="5">${recipe.description}</textarea></td>
                             </tr>
                             <tr class="d-flex">
                                 <th scope="row" class="col-2">Przygotowanie (minuty)</th>
                                 <td class="col-3">
-                                    <input class="p-1" type="number" value="${recipe.preparationTime}">
+                                    <input class="p-1" type="number" name="preparationTime" value="${recipe.preparationTime}">
                                 </td>
                             </tr>
                             </tbody>
@@ -110,12 +112,12 @@
                         </div>
                         <div class="row d-flex">
                             <div class="col-5 p-4">
-                                <textarea class="w-100 p-1" rows="10">${recipe.preparation}</textarea>
+                                <textarea class="w-100 p-1" name="preparation" rows="10">${recipe.preparation}</textarea>
                             </div>
                             <div class="col-2"></div>
 
                             <div class="col-5 p-4">
-                                    <textarea class="w-100 p-1" rows="10">
+                                    <textarea class="w-100 p-1" name="ingredients"rows="10">
                                     ${recipe.ingredients}
                                     </textarea>
                             </div>

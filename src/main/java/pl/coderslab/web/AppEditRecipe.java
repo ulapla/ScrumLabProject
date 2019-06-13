@@ -25,4 +25,22 @@ public class AppEditRecipe extends HttpServlet {
 
         getServletContext().getRequestDispatcher("/app.editRecipe.jsp").forward(req, resp);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int recipeId = Integer.parseInt(req.getParameter("recipeId"));
+        Recipe recipe = RecipeDao.read(recipeId);
+        
+        recipe.setName(req.getParameter("name"));
+        recipe.setDescription(req.getParameter("description"));
+        recipe.setIngredients(req.getParameter("ingredients"));
+        recipe.setPreparation(req.getParameter("preparation"));
+        recipe.setPreparationTime(Integer.parseInt(req.getParameter("preparationTime")));
+        RecipeDao.update(recipe);
+
+
+        resp.sendRedirect("/app.recipes/list");
+
+
+    }
 }
