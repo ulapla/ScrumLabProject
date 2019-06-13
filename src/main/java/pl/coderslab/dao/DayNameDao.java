@@ -12,6 +12,12 @@ import java.util.List;
 
 public class DayNameDao {
     public static final String FIND_ALL_DAY_NAME_QUERY = "SELECT * FROM day_name;";
+    private static final String READ_BY_PLAN_ID_QUERY = "SELECT name, day_name.display_order AS displayOrder, day_name.id AS id \n" +
+            "FROM day_name \n" +
+            "JOIN recipe_plan ON day_name.id = recipe_plan.day_name_id \n" +
+            "WHERE plan_id = ? \n" +
+            "GROUP BY name, day_name.display_order, day_name.id \n" +
+            "ORDER BY day_name.display_order";
 
     public static List<DayName> findAll() {
         List<DayName> dayNameList = new ArrayList<>();
@@ -31,6 +37,24 @@ public class DayNameDao {
             e.printStackTrace();
         }
         return dayNameList;
+    }
 
+    public static List<DayName> readByPlanId(int planId) {
+        List<DayName> list = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(READ_BY_PLAN_ID_QUERY);
+            preparedStatement.setInt(1, planId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                DayName tempDayName = new DayName();
+                tempDayName.setId(resultSet.getInt("id"));
+                tempDayName.setName(resultSet.getString("name"));
+                tempDayName.setDisplayOrder(resultSet.getInt("displayOrder"));
+                list.add(tempDayName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
