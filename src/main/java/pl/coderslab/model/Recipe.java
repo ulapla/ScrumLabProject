@@ -2,13 +2,13 @@ package pl.coderslab.model;
 
 public class Recipe {
     private int id;
-    private String name;
-    private String ingredients;
-    private String description;
-    private String created;
-    private String updated;
-    private int preparationTime;
-    private String preparation;
+    private String name = "";
+    private String ingredients = "";
+    private String description = "";
+    private String created = "";
+    private String updated = "";
+    private int preparationTime = 0;
+    private String preparation = "";
     private int adminId;
 
     public Recipe() {

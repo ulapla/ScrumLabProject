@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="schedules-content">
-                    <form action="/app/recipe/plan/add" method="post">
+                    <form action="/app.recipe/plan/add" method="post">
                         <div class="form-group row">
                             <label for="choosePlan" class="col-sm-2 label-size col-form-label">
                                 Wybierz plan
