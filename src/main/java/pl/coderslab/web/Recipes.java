@@ -19,6 +19,7 @@ public class Recipes extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Recipe> allRecipe = RecipeDao.findAll();
         req.setAttribute("allrecipe", allRecipe);
+        getServletContext().getRequestDispatcher("/recipes.jsp").forward(req, resp);
 
 
     }
