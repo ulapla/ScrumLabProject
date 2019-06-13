@@ -44,44 +44,56 @@ public class AppAddRecipeToPlan extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        String recipeParam = req.getParameter("recipie");
-        String nameRecipeParam = req.getParameter("name");
-        String numberRecipeParam = req.getParameter("number");
-        String dayParam = req.getParameter("day");
-        String choosePlanParam = req.getParameter("choosePlan");
 
-        int displayOrder = Integer.parseInt(numberRecipeParam);
+        if (req.getParameter("recipie").equals("") ||
+        req.getParameter("name").equals("") ||
+        req.getParameter("number").equals("") ||
+        req.getParameter("day").equals("") ||
+        req.getParameter("choosePlan").equals("")) {
 
-        int idPlan = 0;
-        List<Plan> listPlan = (ArrayList<Plan>) session.getAttribute("listPlan");
+            doGet(req, resp);
 
-        for (Plan plan : listPlan) {
-            if ((plan.getName()).equals(choosePlanParam)) {
-                idPlan = plan.getId();
-                System.out.println(idPlan);
+        } else {
+            String recipeParam = req.getParameter("recipie");
+            String nameRecipeParam = req.getParameter("name");
+            String numberRecipeParam = req.getParameter("number");
+            String dayParam = req.getParameter("day");
+            String choosePlanParam = req.getParameter("choosePlan");
+
+            int displayOrder = Integer.parseInt(numberRecipeParam);
+
+            int idPlan = 0;
+            List<Plan> listPlan = (ArrayList<Plan>) session.getAttribute("listPlan");
+
+            for (Plan plan : listPlan) {
+                if ((plan.getName()).equals(choosePlanParam)) {
+                    idPlan = plan.getId();
+                    System.out.println(idPlan);
+                }
             }
+
+            int idRecipe = 0;
+            List<Recipe> listRecipe = (ArrayList<Recipe>) session.getAttribute("listRecipe");
+
+            for (Recipe recipe : listRecipe) {
+                if (recipe.getName().equals(recipeParam)) {
+                    idRecipe = recipe.getId();
+                }
+            }
+
+            int idDay = 0;
+            List<DayName> listDay = (ArrayList<DayName>) session.getAttribute("listDay");
+
+            for (DayName dayName : listDay) {
+                if (dayName.getName().equals(dayParam)) {
+                    idDay = dayName.getId();
+                }
+            }
+
+            PlanDao.AddRecipeToPlan(idRecipe, nameRecipeParam, displayOrder, idDay, idPlan);
+
+            resp.sendRedirect("/app.recipe/plan/add");
         }
 
-        int idRecipe = 0;
-        List<Recipe> listRecipe = (ArrayList<Recipe>) session.getAttribute("listRecipe");
-
-        for (Recipe recipe : listRecipe) {
-            if (recipe.getName().equals(recipeParam)) {
-                idRecipe = recipe.getId();
-            }
-        }
-
-        int idDay = 0;
-        List<DayName> listDay = (ArrayList<DayName>) session.getAttribute("listDay");
-
-        for (DayName dayName : listDay) {
-            if (dayName.getName().equals(dayParam)) {
-                idDay = dayName.getId();
-            }
-        }
-
-        PlanDao.AddRecipeToPlan(idRecipe, nameRecipeParam, displayOrder, idDay, idPlan);
-
-        resp.sendRedirect("/app.recipe/plan/add");
     }
 }
