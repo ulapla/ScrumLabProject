@@ -11,9 +11,7 @@ import pl.coderslab.model.RecipePlan;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -44,6 +42,14 @@ public class AppScheduleDetailsServlet extends HttpServlet {
             hashSetRecipe.add(RecipeDao.read(tempRecipePlan.getRecipeId()));
         }
         req.setAttribute("hashSetRecipe", hashSetRecipe);
+
+        /*Ten fragment pozwala na zapisanie w sesji skąd przechodzi się do szczegółów przepisu, co jest potem wykorzystywane
+        przy przycisku "Powrót"
+         */
+        HttpSession session = req.getSession();
+        String originURL = req.getRequestURI() + "?id=" + planId;
+        session.setAttribute("recipeDetailBackButton", originURL);
+
 
         getServletContext().getRequestDispatcher("/app.scheduleDetails.jsp").forward(req,resp);
     }

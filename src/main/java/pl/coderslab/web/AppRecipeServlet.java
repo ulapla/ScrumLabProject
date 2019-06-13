@@ -25,6 +25,13 @@ public class AppRecipeServlet extends HttpServlet {
 
         req.setAttribute("listRecipe", listRecipe); //przekazane do jsp, w jsp pętla for each
 
+        /*Ten fragment pozwala na zapisanie w sesji skąd przechodzi się do szczegółów przepisu, co jest potem wykorzystywane
+        przy przycisku "Powrót"
+         */
+        String originURL = req.getRequestURI();
+        System.out.println(originURL);
+        session.setAttribute("recipeDetailBackButton", originURL);
+
         getServletContext().getRequestDispatcher("/app.recipes.jsp").forward(req, resp);
     }
 }
