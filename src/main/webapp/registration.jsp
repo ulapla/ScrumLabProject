@@ -25,10 +25,10 @@
                         </c:if>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="password" name="password" placeholder="podaj hasło">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="podaj hasło">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="repassword" name="password" placeholder="powtórz hasło">
+                            <input type="password" class="form-control" id="repassword" name="password" placeholder="powtórz hasło">
                         </div>
                          <c:if test="${checkPassword == false}">
                             <div class="alert-info">Wprowadź takie same hasła!</div>

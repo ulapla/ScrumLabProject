@@ -13,7 +13,7 @@
                                    placeholder="podaj adres email">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="password" name="password"
+                            <input type="password" class="form-control" id="password" name="password"
                                    placeholder="podaj hasło">
                         </div>
                         <c:if test="${check == false}">
