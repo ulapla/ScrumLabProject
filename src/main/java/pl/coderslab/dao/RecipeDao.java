@@ -23,6 +23,7 @@ public class RecipeDao {
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
     private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ? , ingredients = ?, description = ?, created = ?, updated = ?, preparation_time = ?, preparation = ?, admin_id = ? WHERE id = ?;";
     private static final String FIND_ALL_RECIPE_BY_ADMINID_QUERY = "SELECT * FROM recipe WHERE admin_id = ? ORDER BY created desc;";
+    private static final String FIND_ALL_RECIPE_FROM_LATEST_TO_OLDEST = "SELECT * FROM recipe ORDER BY created DESC;";
     
     public static Recipe read(Integer recipeId) {
         Recipe recipe = new Recipe();
@@ -54,6 +55,33 @@ public class RecipeDao {
         List<Recipe> recipeList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPE_QUERY);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Recipe recipeToAdd = new Recipe();
+                recipeToAdd.setId(resultSet.getInt("id"));
+                recipeToAdd.setName(resultSet.getString("name"));
+                recipeToAdd.setIngredients(resultSet.getString("ingredients"));
+                recipeToAdd.setDescription(resultSet.getString("description"));
+                recipeToAdd.setCreated(resultSet.getString("created"));
+                recipeToAdd.setUpdated(resultSet.getString("updated"));
+                recipeToAdd.setPreparationTime(resultSet.getInt("preparation_time"));
+                recipeToAdd.setPreparation(resultSet.getString("preparation"));
+                recipeToAdd.setAdminId(resultSet.getInt("admin_id"));
+
+                recipeList.add(recipeToAdd);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return recipeList;
+    }
+
+       public static List<Recipe> findAllRecipeFromLatestToOldest() {
+        List<Recipe> recipeList = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPE_FROM_LATEST_TO_OLDEST);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
