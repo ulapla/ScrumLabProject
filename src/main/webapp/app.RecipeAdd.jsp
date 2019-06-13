@@ -98,7 +98,7 @@
                             <tr class="d-flex">
                                 <th scope="row" class="col-2">Przygotowanie (minuty)</th>
                                 <td class="col-3">
-                                    <input name="preparationTime" class="p-1" type="number" value="">
+                                    <input name="preparationTime" class="p-1" type="number" min="0" value="">
                                 </td>
                             </tr>
                             </tbody>
