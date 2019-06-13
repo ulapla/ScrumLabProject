@@ -14,8 +14,6 @@ public class HomeLogout extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if(req.getParameter("logout").equals((String)"1")) {
-            System.out.println("działa");
-            System.out.println(req.getParameter("logout"));
             req.getSession().removeAttribute("admin");
         }
 

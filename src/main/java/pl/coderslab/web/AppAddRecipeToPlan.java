@@ -45,13 +45,6 @@ public class AppAddRecipeToPlan extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
 
-        System.out.println("AppAddRecipeToPlan.java");
-        System.out.println(req.getParameter("recipie"));
-        System.out.println(req.getParameter("name"));
-        System.out.println(req.getParameter("number"));
-        System.out.println(req.getParameter("day"));
-        System.out.println(req.getParameter("choosePlan"));
-
         if (req.getParameter("recipie").equals("") ||
         req.getParameter("name").equals("") ||
         req.getParameter("number").equals("") ||
