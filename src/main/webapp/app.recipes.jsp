@@ -103,7 +103,7 @@
                                 <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                                 <a href="/app/recipe/details?id=${recipe.id}"
                                    class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                                <a href="/app-edit-recipe.html"
+                                <a href="/app.recipe/edit?id=${recipe.id}"
                                    class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
                             </td>
                         </tr>
