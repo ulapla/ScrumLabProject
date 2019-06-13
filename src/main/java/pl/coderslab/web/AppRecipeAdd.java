@@ -27,21 +27,16 @@ public class AppRecipeAdd extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Recipe recipe = new Recipe();
 
-        /*Sprawdzam pola formularza, czy wszystkie zostały wypełnione. Odsyłam korzystając z doGet, które inicjuje wszystko od początku.
-         */
-        if      (req.getParameter("name").equals("") ||
-                req.getParameter("description").equals("") ||
-                req.getParameter("preparationTime").equals("") ||
-                req.getParameter("preparation").equals("") ||
-                req.getParameter("ingredients").equals("") ) {
-
-            doGet(req, resp);
-
+        //Pole z int koniecznie potrzebuje wartości. Dlatego sprawdzam i w razie braku nadaję wartość default.
+        if (req.getParameter("preparationTime").equals("")) {
+            recipe.setPreparationTime(0);
         } else {
-            //Wczytywanie danych z formularza
-            recipe.setName(req.getParameter("name"));
-            recipe.setDescription(req.getParameter("description"));
             recipe.setPreparationTime(Integer.parseInt(req.getParameter("preparationTime")));
+        }
+
+        //Wczytywanie danych z formularza
+        recipe.setName(req.getParameter("name"));
+        recipe.setDescription(req.getParameter("description"));
             recipe.setPreparation(req.getParameter("preparation"));
             recipe.setIngredients(req.getParameter("ingredients"));
 
@@ -60,8 +55,5 @@ public class AppRecipeAdd extends HttpServlet {
             RecipeDao.create(recipe);
 
             resp.sendRedirect("/app.recipes/list");
-        }
-
-
     }
 }
