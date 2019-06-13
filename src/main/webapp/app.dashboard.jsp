@@ -25,6 +25,8 @@
         <div class="d-flex justify-content-around">
             <h4 class="text-light mr-3">${admin.firstName}</h4>
             <div class="circle-div text-center"><i class="fas fa-user icon-user"></i></div>
+            <div><a class="nav-link color-header" href="/home?logout=1">wyloguj</a></div>
+
         </div>
     </nav>
 </header>
