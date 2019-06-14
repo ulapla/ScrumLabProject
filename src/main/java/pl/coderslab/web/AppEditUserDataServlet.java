@@ -1,5 +1,6 @@
 package pl.coderslab.web;
 
+import pl.coderslab.dao.AdminDao;
 import pl.coderslab.model.Admin;
 
 import javax.servlet.ServletException;
@@ -15,10 +16,23 @@ public class AppEditUserDataServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        req.setAttribute("admin",(Admin)session.getAttribute("admin"));
 
 
         getServletContext().getRequestDispatcher("/app.editUserData.jsp").forward(req,resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        Admin admin = (Admin)session.getAttribute("admin");
+
+        String name = req.getParameter("name");
+        String lastName = req.getParameter("lastName");
+
+        admin.setFirstName(name);
+        admin.setLastName(lastName);
+        AdminDao.update(admin);
+
+        resp.sendRedirect("/app.dashboard");
     }
 }

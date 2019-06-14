@@ -203,7 +203,8 @@ public class AdminDao {
             statement.setString(3, read(admin.getId()).getEmail());//przypisze email z bazy - nie ma możliwości zmiany emaila
 
 
-            if(admin.getPassword() != read(admin.getId()).getPassword() ) { //jesli wprowadzono nowe hasło (obecne jest inne niż to w bazie) zaszyfruj
+
+            if(!admin.getPassword().equals(read(admin.getId()).getPassword()) ) { //jesli wprowadzono nowe hasło (obecne jest inne niż to w bazie) zaszyfruj
                 statement.setString(4, BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt()));//szyfrujemy hasło przy zapisie do bazy danych
             }
             else { //w innym wypadku jest już zaszyfrowane
