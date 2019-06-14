@@ -34,7 +34,7 @@ public class AppRecipeDelete extends HttpServlet {
             resp.sendRedirect("/app.recipes/list");
         } else {
             req.setAttribute("check", check); //przekazujemy do jsp, że recipeId jest w jakimś planie
-            resp.sendRedirect("/app.recipes/list");
+            getServletContext().getRequestDispatcher("/app.recipesDelete.jsp").forward(req, resp);
         }
     }
 }

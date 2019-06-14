@@ -35,7 +35,7 @@
 
 
                 <form class="padding-small text-center">
-                    <h1 class="text-color-darker">Czy na pewno chcesz usunąć?</h1>
+                    <h1 class="text-color-darker">Czy na pewno chcesz usunąć przepis?</h1>
                     <button class="btn btn-danger rounded-0 pt-0 pb-0 pr-4 pl-4" type="submit" name="delete">Usuń
                     </button>
                     <input type="hidden" value="${param.id}" name="id">
@@ -44,6 +44,7 @@
                 <a href="/app.recipes/list" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Anuluj</a>
             </div>
             <c:if test="${check == 0}">
+                <br>
                 <div class="alert-info">Nie można usunąć przepisu. Przepis znajduje się w planie</div>
             </c:if>
         </div>

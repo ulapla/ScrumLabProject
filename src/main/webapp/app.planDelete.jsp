@@ -43,6 +43,10 @@
 
                 <a href="/app.plan/list" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Anuluj</a>
             </div>
+            <c:if test="${check == 0}">
+                <br>
+                <div class="alert-info">Nie można usunąć planu. Plan zawiera przepisy. Usuń najpierw przepisy znajdujące się w planie</div>
+            </c:if>
         </div>
         </div>
         </div>
