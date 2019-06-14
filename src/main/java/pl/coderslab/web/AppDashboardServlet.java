@@ -48,6 +48,13 @@ public class AppDashboardServlet extends HttpServlet {
         }
         req.setAttribute("planName", planName);
 
+
+        String originURL = req.getRequestURI();
+        session.setAttribute("recipeDetailBackButton", originURL);
+
+
+
+
         getServletContext().getRequestDispatcher("/app.dashboard.jsp").forward(req,resp);
 
     }
