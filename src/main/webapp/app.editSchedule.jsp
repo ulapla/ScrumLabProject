@@ -102,9 +102,7 @@
                                 Opis planu
                             </label>
                             <div class="col-sm-10">
-                                    <textarea class="form-control" name="description" rows="5" id="planDescription" placeholder="Opis planu">
-                                        ${plan.description}
-                                    </textarea>
+                                <textarea class="form-control" name="description" rows="5" id="planDescription" placeholder="Opis planu">${plan.description}</textarea>
                             </div>
                         </div>
 

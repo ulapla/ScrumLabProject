@@ -118,9 +118,7 @@
                             <div class="col-2"></div>
 
                             <div class="col-5 p-4">
-                                    <textarea class="w-100 p-1" name="ingredients"rows="10">
-                                    ${recipe.ingredients}
-                                    </textarea>
+                                    <textarea class="w-100 p-1" name="ingredients"rows="10">${recipe.ingredients}</textarea>
                             </div>
                         </div>
                     </form>
