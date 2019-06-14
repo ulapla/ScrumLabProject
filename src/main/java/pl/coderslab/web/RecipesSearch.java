@@ -26,12 +26,16 @@ public class RecipesSearch extends HttpServlet {
         String nameParam = req.getParameter("name");
         List <Recipe> listRecipe = RecipeDao.findAll();
         List<Recipe> resultList = new ArrayList<>();
+        int check = 0;
 
         for (Recipe recipe : listRecipe) {
             if ((recipe.getName().toLowerCase()).contains(nameParam.toLowerCase())){
                 resultList.add(recipe);
+                check = 1;
+//                getServletContext().getRequestDispatcher("/recipesSearch.jsp").forward(req, resp);
             }
         }
+        req.setAttribute("check", check);
         req.setAttribute("list", resultList);
         getServletContext().getRequestDispatcher("/recipesSearch.jsp").forward(req, resp);
     }

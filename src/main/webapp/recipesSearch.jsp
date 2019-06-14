@@ -30,6 +30,11 @@
             <td class="col-7">
                 <input class="w-100 p-1" name="name" value="" placeholder="Wpisz nazwę przepisu">
                 <%--                <input type="hidden" name="recipeId" value="${param.id}">--%>
+                <br>
+                <br>
+                <c:if test="${check == 0}">
+                    <div class="alert-info">Nie ma takiego przepisu! Wprowadź inną nazwę.</div>
+                </c:if>
             </td>
         </tr>
         </tbody>
@@ -39,6 +44,7 @@
 <br>
 
 <section class="mr-4 ml-4">
+    <c:if test="${check == 1}">
     <table class="table">
         <thead>
         <tr class="d-flex text-color-darker">
@@ -62,6 +68,7 @@
                 </td>
             </tr>
         </c:forEach>
+        </c:if>
         </tbody>
     </table>
 </section>

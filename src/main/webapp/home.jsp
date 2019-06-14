@@ -60,6 +60,26 @@
             </button>
         </div>
     </div>
+    <section class="newsletter-section padding-small">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>Wyszukaj przepis</h1>
+            </div>
+            <div class="col-5">
+
+                    <form action="/recipes/search" method="post">
+                        <input type="text" class="form-control border-0 rounded-0" placeholder="Wyszukaj przepis" name="name">
+                        <div class="input-group-append">
+                            <br>
+                            <input class="input-group-text btn-color border-0 rounded-0" type="submit" value="Szukaj">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 </section>
 
 <section class="padding-small details bg-light">
@@ -91,26 +111,6 @@
 </section>
 
 
-<section class="newsletter-section padding-small">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h1>Wyszukaj przepis</h1>
-            </div>
-            <div class="col-5">
-
-                    <form action="/recipes/search" method="post">
-                        <input type="text" class="form-control border-0 rounded-0" placeholder="Wyszukaj przepis" name="name">
-                        <div class="input-group-append">
-                            <br>
-                            <input class="input-group-text btn-color border-0 rounded-0" type="submit" value="Szukaj">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <section class="padding-medium story bg-light" id="about">
     <div class="container d-flex justify-content-center align-items-center">
