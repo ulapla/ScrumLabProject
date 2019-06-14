@@ -109,8 +109,11 @@
             <div class="m-4 p-4 border-dashed">
                 <h2 class="dashboard-content-title">
                     <span>Ostatnio dodany plan:</span> ${planName}
-                </h2><c:forEach items="${planDetails}" var="det">
+                </h2>
+                <c:set var="detOld" value=""/>
+                <c:forEach items="${planDetails}" var="det">
                 <table class="table">
+                    <c:if test="${!det[0].equals(detOld)}">
                         <thead>
                         <tr class="d-flex">
                             <th class="col-2">${det[0]}</th>
@@ -118,6 +121,8 @@
                             <th class="col-2"></th>
                         </tr>
                         </thead>
+                        <c:set var="detOld" value="${det[0]}"/>
+                    </c:if>
                         <tbody>
                         <tr class="d-flex">
                             <td class="col-2">${det[1]}</td>
