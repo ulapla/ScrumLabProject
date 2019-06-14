@@ -14,6 +14,29 @@
         <div class="orange-line w-100"></div>
     </div>
 </section>
+<form action="/recipes/search" method="post">
+    <div class="row border-bottom border-3">
+
+        <div class="col"><h3 class="color-header text-uppercase">Wyszukiwarka</h3></div>
+        <div class="col d-flex justify-content-end mb-2">
+            <button type="submit" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Szukaj</button>
+        </div>
+    </div>
+
+    <table class="table borderless">
+        <tbody>
+        <tr class="d-flex">
+            <th scope="row" class="col-2">Nazwa przepisu</th>
+            <td class="col-7">
+                <input class="w-100 p-1" name="name" value="" placeholder="Wpisz nazwę przepisu">
+                <%--                <input type="hidden" name="recipeId" value="${param.id}">--%>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div class="orange-line w-100"></div>
+<br>
 
 <section class="mr-4 ml-4">
     <table class="table">
@@ -26,15 +49,17 @@
         </tr>
         </thead>
         <tbody class="text-color-lighter">
-        <c:forEach var="recipe" items="${allrecipe}">
+        <c:forEach items="${list}" var="recipe">
             <tr class="d-flex">
                 <th scope="row" class="col-1">${recipe.id}</th>
                 <td class="col-5">
-                    ${recipe.name}
+                        ${recipe.name}
                 </td>
                 <td class="col-5">${recipe.description}
                 </td>
-                <td class="col-1"><a href="/recipeDetails?id=${recipe.id}" class="btn btn-info rounded-0 text-light">Szczegóły</a></td>
+                <td class="col-1"><a href="/recipes/details/after/search?id=${recipe.id}"
+                                     class="btn btn-info rounded-0 text-light">Szczegóły</a>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
