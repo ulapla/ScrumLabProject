@@ -36,6 +36,9 @@
                 <a class="nav-link disabled" href="/recipes">Przepisy</a>
             </li>
             <li class="nav-item ml-4">
+                <a class="nav-link disabled" href="/app.dashboard">Zaplanuj posiłki</a>
+            </li>
+            <li class="nav-item ml-4">
                 <a class="nav-link disabled" href="/contact">Kontakt</a>
             </li>
         </ul>
