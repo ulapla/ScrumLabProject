@@ -32,7 +32,7 @@
                     <div class="carousel-caption d-block">
                         <h1>Mniam mniam mniam mniam mniam mnia mniam mniam!</h1>
                         <h3>Soufflé ice cream sesame snaps oat cake marshmallow. Candy gummies chocolate cake sesame
-                            snaps chupa chups caramels</h3>
+                            s</h3>
                     </div>
                 </div>
             </div>
