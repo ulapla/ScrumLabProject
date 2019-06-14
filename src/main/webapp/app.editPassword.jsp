@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html>
 <head>
@@ -75,9 +76,7 @@
         <div class="m-4 p-3 width-medium text-color-darker">
             <div class="m-4 border-dashed view-height">
                 <div class="mt-4 ml-4 mr-4">
-                    <!-- fix action, method -->
-                    <!-- add name attribute for all inputs -->
-                    <form>
+                    <form action="/app.editPassword" method="post">
 
                         <div class="row border-bottom border-3">
                             <div class="col"><h3 class="color-header text-uppercase">Zmień hasło</h3></div>
@@ -92,18 +91,28 @@
                             <tr class="d-flex">
                                 <th scope="row" class="col-2"><h4>Nowe hasło</h4></th>
                                 <td class="col-7">
-                                    <input class="w-100 p-1" value="">
+                                    <input type="password" class="w-100 p-1" value="" name="password">
                                 </td>
                             </tr>
                             <tr class="d-flex">
                                 <th scope="row" class="col-2"><h4>Powtórz hasło</h4></th>
                                 <td class="col-7">
-                                    <input class="w-100 p-1" value="">
+                                    <input type="password" class="w-100 p-1" value="" name="repeatPassword">
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </form>
+                    <c:choose>
+                        <c:when test="${checkPassword == false}">
+                            <div class="form-group">Wprowadź takie same hasła!</div>
+                        </c:when>
+                        <c:when test="${checkPassword == true}">
+                            <div class="form-group">Zmieniono hasło</div>
+                        </c:when>
+                        <c:otherwise>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
 
