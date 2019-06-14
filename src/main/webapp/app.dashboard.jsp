@@ -122,7 +122,8 @@
                         <tr class="d-flex">
                             <td class="col-2">${det[1]}</td>
                             <td class="col-8">${det[2]}</td>
-                            <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
+                            <td class="col-2"> <a href='<c:url value="/app.recipe/details?id=${det[4]}"/>'
+                                                  class="btn btn-info rounded-0 text-light m-1">Szczegóły</a></td>
                         </tr>
                         </tbody>
                 </table>
