@@ -113,9 +113,6 @@
                 <table class="table">
                         <thead>
                         <tr class="d-flex">
-                            <c:out value="${det[0]}">
-
-                            </c:out>
                             <th class="col-2">${det[0]}</th>
                             <th class="col-8"></th>
                             <th class="col-2"></th>
