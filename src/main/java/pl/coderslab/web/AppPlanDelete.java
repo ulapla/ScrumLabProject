@@ -1,6 +1,8 @@
 package pl.coderslab.web;
 
 import pl.coderslab.dao.PlanDao;
+import pl.coderslab.dao.RecipeDao;
+import pl.coderslab.dao.RecipePlanDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,9 +23,15 @@ public class AppPlanDelete extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String idParam = req.getParameter("id");
         int id = Integer.parseInt(idParam);
+        int check = 0;
 
-        PlanDao.delete(id);
-
-        resp.sendRedirect("/app.plan/list");
+        if (RecipePlanDao.findAllPlanRecipeByPlanId(id).isEmpty()) {
+            PlanDao.delete(id);
+            check = 1;
+            resp.sendRedirect("/app.plan/list");
+        } else {
+            req.setAttribute("check", check);
+            getServletContext().getRequestDispatcher("/app.planDelete.jsp").forward(req, resp);
+        }
     }
 }
