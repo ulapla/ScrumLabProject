@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-4 mr-4">
                 <div>
-                    <img height="400"width="400" src="/pizza.jpg">
+                    <img height="400"width="400" src="/apppizza.jpg">
                 </div>
             </div>
 
