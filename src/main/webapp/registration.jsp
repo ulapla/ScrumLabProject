@@ -30,6 +30,9 @@
                         <div class="form-group">
                             <input type="password" class="form-control" id="repassword" name="password" placeholder="powtórz hasło">
                         </div>
+                        <c:if test="${email == true}">
+                            <div class="alert-info">Użytkownik o tym adresie email już istnieje</div>
+                        </c:if> <br>
                          <c:if test="${checkPassword == false}">
                             <div class="alert-info">Wprowadź takie same hasła!</div>
                         </c:if> <br>
