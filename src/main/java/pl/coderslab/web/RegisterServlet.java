@@ -31,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
             req.setAttribute("checkPassword", false);
             getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
 
-        } else if ((emailParam.matches("^[A-Z0-9+_.-]+@[A-Z0-9.-]+$"))) { //sprawdzanie czy maila ma poprawny format
+        } else if (!(emailParam.matches("^[A-Z0-9+_.-]+@[A-Z0-9.-]+$"))) { //sprawdzanie czy maila ma poprawny format
             req.setAttribute("regexMail", false);
             getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
 
