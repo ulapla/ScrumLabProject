@@ -31,12 +31,12 @@ public class RegisterServlet extends HttpServlet {
             req.setAttribute("checkPassword", false);
             getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
 
-        } else if (!(emailParam.matches("^[A-Z0-9+_.-]+@[A-Z0-9.-]+$"))) { //sprawdzanie czy maila ma poprawny format
+        } else if (!(emailParam.matches("^[\\w0-9+_.-]+@[\\w0-9.-]+$"))) { //sprawdzanie czy maila ma poprawny format
             req.setAttribute("regexMail", false);
             getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
 
 
-        } else if (!(nameParam.matches("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ].*")) && !(surnameParam.matches("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ].*"))) { //imię musi nie mieć cyfr ani znaków specjalnych
+        } else if (!((nameParam.matches("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ].*")) && (surnameParam.matches("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ].*")))) { //imię musi nie mieć cyfr ani znaków specjalnych
             req.setAttribute("regexName", false);
             getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
 
