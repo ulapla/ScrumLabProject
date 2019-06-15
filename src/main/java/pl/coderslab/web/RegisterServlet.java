@@ -24,14 +24,27 @@ public class RegisterServlet extends HttpServlet {
         String nameParam = req.getParameter("name");
         String surnameParam = req.getParameter("surname");
         String emailParam = req.getParameter("email");
-        boolean checkPassword;
-//        if (!(emailParam.matches("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$"))) { //trzeba dopracować
-//            req.setAttribute("msg1", "1");
-//            getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
-//        }
-
         String[] checkEqualsPassword = req.getParameterValues("password");
-        if (checkEqualsPassword[0].equals(checkEqualsPassword[1])) { //sprawdzamy czy hasła są takie same
+
+
+        if (!(checkEqualsPassword[0].equals(checkEqualsPassword[1]))) { //sprawdzamy czy hasła są takie same
+            req.setAttribute("checkPassword", false);
+            getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
+
+        } else if ((emailParam.matches("^[A-Z0-9+_.-]+@[A-Z0-9.-]+$"))) { //sprawdzanie czy maila ma poprawny format
+            req.setAttribute("regexMail", false);
+            getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
+
+
+        } else if (!(nameParam.matches("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ].*")) && !(surnameParam.matches("[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ].*"))) { //imię musi nie mieć cyfr ani znaków specjalnych
+            req.setAttribute("regexName", false);
+            getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
+
+        } else if (!(checkEqualsPassword[0].matches("[a-zA-Z\\d\\D\\W\\w]{8,}"))) { //hasło musi mieć conajmniej 8 znaków
+            req.setAttribute("regexPassword", false);
+            getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
+
+        } else {
             Admin newAdmin = new Admin();
             newAdmin.setFirstName(nameParam);
             newAdmin.setLastName(surnameParam);
@@ -39,18 +52,13 @@ public class RegisterServlet extends HttpServlet {
             newAdmin.setPassword(checkEqualsPassword[0]);
 
             Admin admin = AdminDao.create(newAdmin); //zapisujemy do bazy admina, który się zarejestrował
-            if (admin == null){//Ula: jesli nie udało się stworzyć admina znaczy że taki email jest już w bazie
-                req.setAttribute("email",true);
+            if (admin == null) {//Ula: jesli nie udało się stworzyć admina znaczy że taki email jest już w bazie
+                req.setAttribute("email", true);
                 //resp.sendRedirect("/register");
-                getServletContext().getRequestDispatcher("/registration.jsp").forward(req,resp);
+                getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
+                resp.sendRedirect("/login"); //kierujemy na login
             }
-            resp.sendRedirect("/login"); //kierujemy na login
-
-        } else {
-            checkPassword = false;
-            req.setAttribute("checkPassword", checkPassword);
-            getServletContext().getRequestDispatcher("/registration.jsp").forward(req,resp);
-
         }
     }
 }
+
