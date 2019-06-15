@@ -56,9 +56,9 @@ public class RegisterServlet extends HttpServlet {
                 req.setAttribute("email", true);
                 //resp.sendRedirect("/register");
                 getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
-                resp.sendRedirect("/login"); //kierujemy na login
             }
         }
+        resp.sendRedirect("/login"); //kierujemy na login
     }
 }
 
