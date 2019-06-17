@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html>
 <head>
@@ -92,31 +93,18 @@
                             <th class="col-2 center">AKCJE</th>
                         </tr>
                         </thead>
+
                         <tbody class="text-color-lighter">
+                        <c:forEach var="admin" items="${admins}">
                         <tr class="d-flex">
-                            <td class="col-1">1</td>
-                            <td class="col-3">Marek</td>
-                            <td class="col-6">Marecki</td>
+                            <td class="col-1">${admin.id}</td>
+                            <td class="col-3">${admin.firstName}</td>
+                            <td class="col-6">${admin.lastName}</td>
                             <td class="col-2 center">
-                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Blokuj</a>
+                                <a href="/app.superAdminUsers?id=${admin.id}" class="btn btn-danger rounded-0 text-light m-1">Blokuj</a>
                             </td>
                         </tr>
-                        <tr class="d-flex">
-                            <td class="col-1">2</td>
-                            <td class="col-3">Marek</td>
-                            <td class="col-6">Marecki</td>
-                            <td class="col-2 center">
-                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Blokuj</a>
-                            </td>
-                        </tr>
-                        <tr class="d-flex">
-                            <td class="col-1">3</td>
-                            <td class="col-3">Marek</td>
-                            <td class="col-6">Marecki</td>
-                            <td class="col-2 center">
-                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Blokuj</a>
-                            </td>
-                        </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
 
