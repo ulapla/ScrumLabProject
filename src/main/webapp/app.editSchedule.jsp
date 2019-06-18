@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,12 +65,14 @@
                     <i class="fas fa-angle-right"></i>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/app.superAdminUsers">
-                    <span>Użytkownicy</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
+            <c:if test="${admin.superadmin == 1}">
+                <li class="nav-item">
+                    <a class="nav-link" href="/app.superAdminUsers">
+                        <span>Użytkownicy</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+            </c:if>
         </ul>
 
         <div class="m-4 p-3 width-medium">

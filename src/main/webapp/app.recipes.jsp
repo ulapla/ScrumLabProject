@@ -65,12 +65,14 @@
                     <i class="fas fa-angle-right"></i>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/app.superAdminUsers">
-                    <span>Użytkownicy</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
+            <c:if test="${admin.superadmin == 1}">
+                <li class="nav-item">
+                    <a class="nav-link" href="/app.superAdminUsers">
+                        <span>Użytkownicy</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+            </c:if>
         </ul>
 
 
