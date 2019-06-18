@@ -16,6 +16,9 @@
                             <input type="password" class="form-control" id="password" name="password"
                                    placeholder="podaj hasło">
                         </div>
+                        <c:if test="${admin.enable == 0}">
+                            <div class="alert-info"> Konto zostało zablokowane</div> <br>
+                        </c:if>
                         <c:if test="${check == false}">
                           <div class="alert-info"> Dane niepoprawne</div> <br>
                         </c:if>

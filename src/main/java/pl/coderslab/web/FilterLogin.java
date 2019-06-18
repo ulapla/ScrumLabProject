@@ -1,5 +1,7 @@
 package pl.coderslab.web;
 
+import pl.coderslab.model.Admin;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.*;
@@ -37,7 +39,8 @@ public class FilterLogin extends HttpFilter {
         if (Pattern.matches("^\\/app\\..+$", req.getRequestURI()) ) {
 
             //Sprawdzenie, czy użytkownik jest zalogowany
-            if (session.getAttribute("admin") != null) {
+            Admin admin = (Admin)session.getAttribute("admin");
+            if (admin!= null && admin.getEnable() == 1) {
                 chain.doFilter(req, resp);
             } else {
                 // Tutaj ustawiany jest adres przekierowania, którym ma być strona z logowaniem. Na potrzeby testów ustawić adres przekierowania na testowy servlet
