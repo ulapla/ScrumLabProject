@@ -23,6 +23,19 @@ public class AppSuperAdminUsersServlet extends HttpServlet {
         List<Admin> admins = AdminDao.findAll();
         req.setAttribute("admins",admins);
 
+        if(req.getParameter("id") != null){
+            Admin adminToChange = AdminDao.read(Integer.parseInt(req.getParameter("id")));
+            if(adminToChange.getEnable()==1){
+                adminToChange.setEnable(0);
+            }
+            else{
+                adminToChange.setEnable(1);
+            }
+
+            AdminDao.update(adminToChange);
+        }
+
+
 
         getServletContext().getRequestDispatcher("/app.superAdminUsers.jsp").forward(req,resp);
     }

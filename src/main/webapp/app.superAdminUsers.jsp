@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ page import="pl.coderslab.dao.AdminDao" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -63,12 +64,14 @@
                     <i class="fas fa-angle-right"></i>
                 </a>
             </li>
+            <c:if test="${admin.superadmin == 1}">
             <li class="nav-item">
                 <a class="nav-link" href="/app.superAdminUsers">
                     <span>Użytkownicy</span>
                     <i class="fas fa-angle-right"></i>
                 </a>
             </li>
+            </c:if>
         </ul>
 
         <div class="m-4 p-3 width-medium">
@@ -79,7 +82,7 @@
                         <h3 class="color-header text-uppercase">LISTA UŻYTKOWNIKÓW</h3>
                     </div>
                     <div class="col d-flex justify-content-end mb-2 noPadding">
-                        <a href="#" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                        <a href="/app.dashboard" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
                     </div>
                 </div>
 
@@ -101,7 +104,14 @@
                             <td class="col-3">${admin.firstName}</td>
                             <td class="col-6">${admin.lastName}</td>
                             <td class="col-2 center">
-                                <a href="/app.superAdminUsers?id=${admin.id}" class="btn btn-danger rounded-0 text-light m-1">Blokuj</a>
+                                <c:choose>
+                                <c:when test="${AdminDao.read(admin.id).getEnable() == 0}">
+                                    <a href="/app.superAdminUsers?id=${admin.id}" class="btn btn-danger rounded-0 text-light m-1">Odblokuj</a>
+                                </c:when>
+                                <c:when test="${AdminDao.read(admin.id).getEnable() == 1}">
+                                    <a href="/app.superAdminUsers?id=${admin.id}" class="btn btn-danger rounded-0 text-light m-1">Blokuj</a>
+                                </c:when>
+                                </c:choose>
                             </td>
                         </tr>
                         </c:forEach>
