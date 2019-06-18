@@ -18,7 +18,12 @@ public class AppSuperAdminUsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        req.setAttribute("admin",(Admin)session.getAttribute("admin"));
+        Admin admin = (Admin)session.getAttribute("admin");
+        req.setAttribute("admin",admin);
+
+        if(admin.getSuperadmin() != 1){
+            getServletContext().getRequestDispatcher("/app.dashboard").forward(req,resp);resp.sendRedirect("/app.dashboard");
+        }
 
         List<Admin> admins = AdminDao.findAll();
         req.setAttribute("admins",admins);
