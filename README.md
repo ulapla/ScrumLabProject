@@ -15,10 +15,20 @@ Technologies:
 - JSP
 - Maven
 
-<img src="images/dashboard.png" width="400"/>
+You can try how it works here: http://ulapla.mooo.com:8082/
 
-<img src="images/recipeList.png" width="400"/>
+login: gosc@g.pl 
 
-<img src="images/addRecipe.png" width="400"/>
+hasło: goscgosc
 
-<img src="images/recipes.png" width="400"/>
+or create your own account.
+
+<img src="images/dashboard.png" width="600"/>
+
+<img src="images/recipesList.png" width="600"/>
+
+<img src="images/addRecipe.png" width="600"/>
+
+<img src="images/recipes.png" width="600"/>
+
+<img src="images/adminPanel.png" width="600"/>
